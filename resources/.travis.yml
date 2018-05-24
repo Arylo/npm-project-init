@@ -1,0 +1,23 @@
+language: node_js
+
+node_js:
+  - "node"
+  - "lts/*"
+  - "8"
+  - "6"
+
+script:
+  - "npm run build"
+
+before_deploy:
+  - "npm run clean"
+  - "npm run build -- -P ./tsconfig.prod.json"
+
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: "arylo.open@gmail.com"
+  api_key: "${NPM_TOKEN}"
+  on:
+    branch: master
+    node_js: "node"

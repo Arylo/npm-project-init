@@ -1,0 +1,29 @@
+{
+  "name": "<project_name>",
+  "version": "1.0.0",
+  "description": "The project is generated in [`arylo-init`](https://www.npmjs.com/package/arylo-init)",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc"
+  },
+  "keywords": [
+    "arylo"
+  ],
+  "author": "AryloYeung <arylo.open@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arylo/<project_name>.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Arylo/<project_name>/issues"
+  },
+  "homepage": "https://github.com/Arylo/<project_name>#readme",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^10.1.2",
+    "rimraf": "^2.6.2",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
+  }
+}
