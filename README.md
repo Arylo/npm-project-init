@@ -3,7 +3,6 @@
 Initial Node.js Project for Arylo Edition
 
 [![Travis][TRAVIS_URL]][TRAVIS_HREF]
-[![Coveralls][COVERALLS_URL]][COVERALLS_HREF]
 [![Known Vulnerabilities][SNYK_URL]][SNYK_HREF]
 [![David][DAVID_URL]][DAVID_HREF]
 [![Author][AUTHOR_URL]][AUTHOR_HREF]
@@ -11,8 +10,6 @@ Initial Node.js Project for Arylo Edition
 
 [TRAVIS_URL]: https://img.shields.io/travis/Arylo/npm-project-init.svg?style=flat-square&logo=travis
 [TRAVIS_HREF]: https://travis-ci.org/Arylo/npm-project-init
-[COVERALLS_URL]: https://img.shields.io/coveralls/github/Arylo/npm-project-init.svg?style=flat-square
-[COVERALLS_HREF]: https://coveralls.io/github/Arylo/npm-project-init
 [SNYK_URL]: https://snyk.io/test/github/Arylo/npm-project-init/badge.svg?style=flat-square
 [SNYK_HREF]: https://snyk.io/test/github/Arylo/npm-project-init
 [DAVID_URL]: https://img.shields.io/david/Arylo/npm-project-init.svg?style=flat-square
