@@ -1,9 +1,11 @@
 {
   "name": "arylo-init",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
-  "bin": "./dist/index.js",
+  "bin": {
+    "arylo-init": "./bin/arylo-init"
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc --locale zh-cn --pretty"
