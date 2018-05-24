@@ -1,10 +1,13 @@
 {
   "name": "arylo-init",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {
     "arylo-init": "./bin/arylo-init"
+  },
+  "engines": {
+    "node": ">=6"
   },
   "scripts": {
     "clean": "rimraf dist",
