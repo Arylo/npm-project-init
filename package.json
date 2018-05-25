@@ -1,6 +1,6 @@
 {
   "name": "arylo-init",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {
@@ -11,7 +11,8 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsc --locale zh-cn --pretty"
+    "tsc": "tsc --locale zh-cn --pretty",
+    "build": "npm run tsc -- -P tsconfig.json"
   },
   "repository": {
     "type": "git",

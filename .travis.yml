@@ -12,7 +12,7 @@ script:
 
 before_deploy:
   - "npm run clean"
-  - "npm run build -- -P ./tsconfig.prod.json"
+  - "npm run tsc -- -P ./tsconfig.prod.json"
 
 deploy:
   skip_cleanup: true
@@ -22,3 +22,6 @@ deploy:
   on:
     branch: master
     node_js: "node"
+
+after_deploy:
+  - "npx arylo-init .deploy"

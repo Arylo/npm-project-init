@@ -2,13 +2,21 @@
   "name": "<project_name>",
   "version": "1.0.0",
   "description": "The project is generated in [`arylo-init`](https://www.npmjs.com/package/arylo-init)",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsc"
+    "tsc": "tsc --locale zh-cn --pretty",
+    "build": "npm run tsc -- -P tsconfig.json",
+    "pretest": "npm run clean && npm run tsc -- -P tsconfig.test.json",
+    "test": "ava dist/test"
   },
   "keywords": [
     "arylo"
+  ],
+  "files": [
+    "dist",
+    "lib"
   ],
   "author": "AryloYeung <arylo.open@gmail.com>",
   "repository": {
@@ -22,6 +30,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^10.1.2",
+    "ava": "^0.25.0",
     "rimraf": "^2.6.2",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"
