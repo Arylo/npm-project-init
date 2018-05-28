@@ -9,7 +9,8 @@
     "tsc": "tsc --locale zh-cn --pretty",
     "build": "npm run tsc -- -P tsconfig.json",
     "pretest": "npm run clean && npm run tsc -- -P tsconfig.test.json",
-    "test": "ava dist/test"
+    "test": "ava dist/test",
+    "lint": "tslint lib/**/*.ts test/**/*.ts"
   },
   "keywords": [
     "arylo"

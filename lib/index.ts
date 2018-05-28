@@ -1,14 +1,16 @@
 import fs = require("fs");
-import mkdirp = require("mkdirp");
 import glob = require("glob");
+import mkdirp = require("mkdirp");
 import path = require("path");
 import constants = require("./constants");
 
 const exit = (msg: string | string[], code = 1) => {
     if (Array.isArray(msg)) {
+        // tslint:disable-next-line:no-console
         console.log(...msg);
     } else {
-        console.log(msg)
+        // tslint:disable-next-line:no-console
+        console.log(msg);
     }
     process.exit(1);
 };
@@ -35,18 +37,18 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
             } else if (stat.isFile()) {
                 fs.createReadStream(from)
                     .pipe(fs.createWriteStream(to)
-                        .on('close', () => {
+                        .on("close", () => {
                             const data = fs
-                                .readFileSync(to, { encoding: 'utf-8' })
+                                .readFileSync(to, { encoding: "utf-8" })
                                 .replace(/<year>/g, year)
                                 .replace(/<project_name>/g, projectName);
-                            fs.writeFileSync(to, data, { encoding: 'utf-8' });
+                            fs.writeFileSync(to, data, { encoding: "utf-8" });
                         })
                     );
             }
         });
     });
-    if (cb && typeof cb === 'function') {
+    if (cb && typeof cb === "function") {
         setTimeout(() => cb(), 50);
     }
 };
@@ -69,9 +71,10 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
     constants.setTargerPath(folderPath);
 
     const filepaths = glob.sync("./**", {
-        dot: true, cwd: constants.resourcesPath
+        cwd: constants.resourcesPath,
+        dot: true
     });
-    moveFiles('.', filepaths, () => {
-        require('child_process').exec(`git init -q ${folderPath}`);
+    moveFiles(".", filepaths, () => {
+        require("child_process").exec(`git init -q ${folderPath}`);
     });
-})()
+})();

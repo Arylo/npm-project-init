@@ -1,4 +1,4 @@
-import { basename } from 'path';
+import { basename } from "path";
 
 export let projectName = "";
 export let targetPath = "";
