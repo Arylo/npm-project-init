@@ -4,6 +4,9 @@ import mkdirp = require("mkdirp");
 import path = require("path");
 import constants = require("./constants");
 
+// tslint:disable-next-line:no-var-requires
+const json = require("./public/tree.json");
+
 const exit = (msg: string | string[], code = 1) => {
     if (Array.isArray(msg)) {
         // tslint:disable-next-line:no-console
@@ -29,12 +32,11 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
             return new RegExp(`^${p}/[^/]+$`).test(item);
         });
         paths.forEach((item) => {
-            const from = `${resourcesPath}/${item}`;
             const to = `${targetPath}/${item}`;
-            const stat = fs.statSync(from);
-            if (stat.isDirectory()) {
+            if (!json.files[item]) {
                 moveFiles(item, filepaths);
-            } else if (stat.isFile()) {
+            } else {
+                const from = `${resourcesPath}/${json.files[item]}`;
                 fs.createReadStream(from)
                     .pipe(fs.createWriteStream(to)
                         .on("close", () => {
@@ -70,10 +72,7 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
 
     constants.setTargerPath(folderPath);
 
-    const filepaths = glob.sync("./**", {
-        cwd: constants.resourcesPath,
-        dot: true
-    });
+    const filepaths = json.list;
     moveFiles(".", filepaths, () => {
         require("child_process").exec(`git init -q ${folderPath}`);
     });

@@ -1,6 +1,6 @@
 {
   "name": "arylo-init",
-  "version": "1.0.7",
+  "version": "1.0.10",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {
@@ -13,7 +13,7 @@
     "clean": "rimraf dist",
     "tsc": "tsc --locale zh-cn --pretty",
     "build": "npm run tsc -- -P tsconfig.json",
-    "lint": "tslint lib/**/*.ts resources/**/*.ts"
+    "lint": "tslint lib/**/*.ts public/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -26,8 +26,7 @@
   "files": [
     "bin",
     "dist",
-    "lib",
-    "resources"
+    "lib"
   ],
   "author": "AryloYeung <arylo.open@gmail.com>",
   "license": "MIT",
@@ -43,8 +42,11 @@
     "@types/glob": "^5.0.35",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^10.1.2",
+    "@types/webpack": "^4.4.0",
+    "md5": "^2.2.1",
     "rimraf": "^2.6.2",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+    "typescript": "^2.8.3",
+    "webpack": "^4.10.0"
   }
 }

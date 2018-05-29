@@ -9,11 +9,14 @@ node_js:
 script:
   - "npm run lint"
   - "npm run build"
+  - "node ./scripts/copy"
   - "node . .script_test"
+  - "ls -al .script_test/*"
 
 before_deploy:
   - "npm run clean"
   - "npm run tsc -- -P ./tsconfig.prod.json"
+  - "node ./scripts/copy"
 
 deploy:
   skip_cleanup: true
@@ -26,4 +29,4 @@ deploy:
 
 after_deploy:
   - "npx arylo-init .deploy_test"
-  - "ls -al .deploy_test"
+  - "ls -al .deploy_test/*"
