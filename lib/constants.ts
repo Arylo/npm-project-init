@@ -1,9 +1,9 @@
-import { basename } from "path";
+import { basename, resolve } from "path";
 
 export let projectName = "";
 export let targetPath = "";
-export const resourcesRawPath = `${__dirname}/../public`;
-export const resourcesPath = `${__dirname}/public`;
+export const resourcesRawPath = resolve(__dirname, "../public");
+export const resourcesPath = resolve(__dirname, "public");
 export const year = new Date().getFullYear() + "";
 
 const setProjectName = (path: string) => {
@@ -16,6 +16,5 @@ const setProjectName = (path: string) => {
 
 export const setTargerPath = (path: string) => {
     targetPath = path;
-    setProjectName(basename(path));
-    return true;
+    return setProjectName(basename(path));
 };

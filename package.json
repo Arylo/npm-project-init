@@ -1,6 +1,6 @@
 {
   "name": "arylo-init",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {
@@ -13,7 +13,9 @@
     "clean": "rimraf dist",
     "tsc": "tsc --locale zh-cn --pretty",
     "build": "npm run tsc -- -P tsconfig.json",
-    "lint": "tslint lib/**/*.ts public/**/*.ts"
+    "lint": "npm run lint:typescript && npm run lint:javascript",
+    "lint:typescript": "tslint lib/**/*.ts public/**/*.ts",
+    "lint:javascript": "eslint scripts/**/*.js lib/**/*.js public/**/*.js"
   },
   "repository": {
     "type": "git",
@@ -42,6 +44,12 @@
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^10.1.2",
     "@types/webpack": "^4.4.0",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
     "glob": "^7.1.2",
     "md5": "^2.2.1",
     "rimraf": "^2.6.2",

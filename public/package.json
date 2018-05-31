@@ -10,7 +10,9 @@
     "build": "npm run tsc -- -P tsconfig.json",
     "pretest": "npm run clean && npm run tsc -- -P tsconfig.test.json",
     "test": "ava dist/test",
-    "lint": "tslint lib/**/*.ts test/**/*.ts"
+    "lint": "npm run lint:typescript && npm run lint:javascript",
+    "lint:typescript": "tslint lib/**/*.ts test/**/*.ts",
+    "lint:javascript": "eslint lib/**/*.js test/**/*.js"
   },
   "keywords": [
     "arylo"
@@ -32,6 +34,12 @@
   "devDependencies": {
     "@types/node": "^10.1.2",
     "ava": "^0.25.0",
+    "eslint": "^4.19.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.10.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.7.0",
+    "eslint-plugin-standard": "^3.0.1",
     "rimraf": "^2.6.2",
     "tslint": "^5.10.0",
     "typescript": "^2.8.3"

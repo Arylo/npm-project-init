@@ -23,7 +23,7 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
     const projectName = constants.projectName;
     const year = constants.year;
 
-    mkdirp(`${targetPath}/${p}`, (err) => {
+    mkdirp(path.resolve(targetPath, p), (err) => {
         if (err) {
             throw err;
         }
@@ -31,11 +31,11 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
             return new RegExp(`^${p}/[^/]+$`).test(item);
         });
         paths.forEach((item) => {
-            const to = `${targetPath}/${item}`;
+            const to = path.resolve(targetPath, item);
             if (!json.files[item]) {
                 moveFiles(item, filepaths);
             } else {
-                const from = `${resourcesPath}/${json.files[item]}`;
+                const from = path.resolve(resourcesPath, json.files[item]);
                 fs.createReadStream(from)
                     .pipe(fs.createWriteStream(to)
                         .on("close", () => {
@@ -60,7 +60,7 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
         exit("Invaild Path");
     }
     if (!path.isAbsolute(folderPath)) {
-        folderPath = `${process.cwd()}/${folderPath}`;
+        folderPath = path.resolve(process.cwd(), folderPath);
         if (!path.isAbsolute(folderPath)) {
             exit("Invaild Path");
         }
