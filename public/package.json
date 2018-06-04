@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "The project is generated in [`arylo-init`](https://www.npmjs.com/package/arylo-init)",
   "main": "dist/index.js",
-  "types": "dist/index.ts",
+  "types": "lib/index.ts",
   "scripts": {
     "clean": "rimraf dist",
     "tsc": "tsc --locale zh-cn --pretty",
@@ -17,6 +17,9 @@
   "keywords": [
     "arylo"
   ],
+  "engines": {
+    "node": ">=6"
+  },
   "files": [
     "dist",
     "lib"
