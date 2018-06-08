@@ -10,7 +10,8 @@ script:
   - "npm run lint"
   - "npm run build"
   - "node ./scripts/copy"
-  - "node . .script_test"
+  - "node . -h"
+  - "node . new .script_test"
   - "ls -al .script_test/*"
 
 before_deploy:
@@ -28,5 +29,6 @@ deploy:
     node_js: "node"
 
 after_deploy:
-  - "npx arylo-init .deploy_test"
+  - "npx arylo-init -h"
+  - "npx arylo-init new .deploy_test"
   - "ls -al .deploy_test/*"
