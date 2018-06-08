@@ -11,17 +11,19 @@ Generate a Node.js Project for Arylo Edition
 
 ## Usages
 
-### Method 0
+### New Project
+
+#### Method 0
 
 ```shell
-npx arylo-init <new_project_path>
+npx arylo-init new <new_project_path>
 ```
 
-### Method 1
+#### Method 1
 
 ```shell
 npm install arylo-init --global
-arylo-init <new_project_path>
+arylo-init new <new_project_path>
 ```
 
 [NPM_URL]: https://img.shields.io/node/v/arylo-init.svg?style=flat-square&maxAge=600
