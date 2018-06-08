@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import * as glob from "glob";
 import * as path from "path";
 import * as constants from "./constants";
 
@@ -9,6 +8,7 @@ const getReleaseData = () => {
 };
 
 const getFakerData = () => {
+    const glob = require("glob");
     const filepaths = glob.sync("./**", {
         cwd: constants.resourcesRawPath,
         dot: true
