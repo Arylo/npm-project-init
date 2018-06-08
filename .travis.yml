@@ -29,6 +29,7 @@ deploy:
     node_js: "node"
 
 after_deploy:
-  - "npx arylo-init -h"
   - "npx arylo-init new .deploy_test"
   - "ls -al .deploy_test/*"
+  - "npm install -g arylo-init"
+  - "arylo-init -h"
