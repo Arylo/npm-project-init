@@ -11,8 +11,8 @@
     "pretest": "npm run clean && npm run tsc -- -P tsconfig.test.json",
     "test": "ava dist/test",
     "lint": "npm run lint:typescript && npm run lint:javascript",
-    "lint:typescript": "tslint lib/**/*.ts test/**/*.ts",
-    "lint:javascript": "eslint lib/**/*.js test/**/*.js"
+    "lint:typescript": "tslint {lib,test}/**/*.ts",
+    "lint:javascript": "eslint {lib,test}/**/*.js"
   },
   "keywords": [
     "arylo"

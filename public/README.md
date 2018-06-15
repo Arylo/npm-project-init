@@ -12,9 +12,9 @@ The project is generated in [`arylo-init`](https://www.npmjs.com/package/arylo-i
 
 [NPM_URL]: https://img.shields.io/node/v/<project_name>.svg?style=flat-square&maxAge=600
 [NPM_HREF]: https://www.npmjs.com/package/<project_name>
-[TRAVIS_URL]: https://img.shields.io/travis/Arylo/<project_name>.svg?style=flat-square&logo=travis&maxAge=600
+[TRAVIS_URL]: https://img.shields.io/travis/Arylo/<project_name>/master.svg?style=flat-square&logo=travis&maxAge=600
 [TRAVIS_HREF]: https://travis-ci.org/Arylo/<project_name>
-[COVERALLS_URL]: https://img.shields.io/coveralls/github/Arylo/<project_name>.svg?style=flat-square&maxAge=600
+[COVERALLS_URL]: https://img.shields.io/coveralls/github/Arylo/<project_name>/master.svg?style=flat-square&maxAge=600
 [COVERALLS_HREF]: https://coveralls.io/github/Arylo/<project_name>
 [SNYK_URL]: https://snyk.io/test/github/Arylo/<project_name>/badge.svg?style=flat-square&maxAge=600
 [SNYK_HREF]: https://snyk.io/test/github/Arylo/<project_name>
