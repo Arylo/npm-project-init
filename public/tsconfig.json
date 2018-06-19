@@ -9,7 +9,9 @@
     "pretty": true,
     "sourceMap": true,
     "newLine": "LF",
-    "outDir": "dist"
+    "outDir": "dist",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": [
     "lib/**/*"
