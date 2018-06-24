@@ -15,7 +15,7 @@ script:
   - "node . -h"
   - "node . new .script_test"
   - "npm install"
-  - "npm t --match='!Deploy*'"
+  - "npm t -- --match='!Deploy*'"
 
 before_deploy:
   - "npm install"
@@ -34,6 +34,6 @@ deploy:
 
 after_deploy:
   - "npx arylo-init new .deploy_test"
-  - "npm t --match='!Dist*'"
+  - "npm t -- --match='!Dist*'"
   - "npm install -g arylo-init"
   - "arylo-init -h"
