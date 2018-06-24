@@ -1,4 +1,5 @@
 import { basename, resolve } from "path";
+import { nameFilter } from "./utils";
 
 export let projectName = "";
 export let targetPath = "";
@@ -8,10 +9,7 @@ export const resourcesPath = resolve(__dirname, resourcesName);
 export const year = new Date().getFullYear().toString();
 
 const setProjectName = (path: string) => {
-    projectName = path
-        .toLowerCase()
-        .replace(/^[^a-f]*/i, "")
-        .replace(/\W/g, "");
+    projectName = nameFilter(path);
     return true;
 };
 

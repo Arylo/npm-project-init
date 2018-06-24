@@ -8,3 +8,10 @@ export const exit = (msg: string | string[], code = 1) => {
     }
     process.exit(1);
 };
+
+export const nameFilter = (name: string) => {
+    return name
+        .toLowerCase()
+        .replace(/^[^a-z]*/i, "")
+        .replace(/\W/g, "");
+};
