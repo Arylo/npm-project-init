@@ -1,8 +1,8 @@
 language: node_js
 
 node_js:
-  - "node"
   - "lts/*"
+  - "9"
   - "8"
   - "6"
 
@@ -30,7 +30,7 @@ deploy:
   api_key: "${NPM_TOKEN}"
   on:
     branch: master
-    node_js: "node"
+    node_js: "lts/*"
 
 after_deploy:
   - "npx arylo-init new .deploy_test"
