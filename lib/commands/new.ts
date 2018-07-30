@@ -11,8 +11,6 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
     const targetPath = constants.targetPath;
     const resourcesPath = fs.existsSync(constants.resourcesPath) ?
         constants.resourcesPath : constants.resourcesRawPath;
-    const projectName = constants.projectName;
-    const year = constants.year;
 
     mkdirp.sync(path.resolve(targetPath, p));
     const paths = filepaths.filter((item) => {
@@ -29,8 +27,9 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
             toStream.on("close", () => {
                 const data = fs
                     .readFileSync(to, { encoding: "utf-8" })
-                    .replace(/<year>/g, year)
-                    .replace(/<project_name>/g, projectName);
+                    .replace(/<year>/g, constants.year)
+                    .replace(/<project_name>/g, constants.projectName)
+                    .replace(/<version>/g, constants.version);
                 fs.writeFileSync(to, data, { encoding: "utf-8" });
             });
             fromStream.pipe(toStream);

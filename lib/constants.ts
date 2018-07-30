@@ -7,6 +7,8 @@ const resourcesName = "public";
 export const resourcesRawPath = resolve(__dirname, "..", resourcesName);
 export const resourcesPath = resolve(__dirname, resourcesName);
 export const year = new Date().getFullYear().toString();
+// tslint:disable-next-line:no-var-requires
+export const version = require("../package.json").version;
 
 const setProjectName = (path: string) => {
     projectName = nameFilter(path);
