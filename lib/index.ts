@@ -1,4 +1,10 @@
+import updateNotifier = require("update-notifier");
+
 (() => {
+    updateNotifier({
+        pkg: require("../package.json"),
+        updateCheckInterval: 1000 * 60 * 60 * 24 * 7
+    }).notify();
     if (process.argv.indexOf("-v") !== -1) {
         const version = require("./commands/help").version;
         process.stdout.write(`v${version}`);
