@@ -17,7 +17,8 @@
     "lint:typescript": "tslint lib/**/*.ts public/**/*.ts",
     "lint:javascript": "eslint scripts/**/*.js lib/**/*.js public/**/*.js",
     "test": "ava ./test/**/*",
-    "test:deploy": "cross-env Level=deploy npm t"
+    "test:dist": "npm t .script_test",
+    "test:deploy": "npm t .deploy_test"
   },
   "repository": {
     "type": "git",
@@ -47,9 +48,7 @@
     "@types/make-dir": "^1.0.3",
     "@types/node": "^10.1.2",
     "@types/update-notifier": "^2.2.0",
-    "@types/webpack": "^4.4.0",
     "ava": "^0.25.0",
-    "cross-env": "^5.2.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.10.0",

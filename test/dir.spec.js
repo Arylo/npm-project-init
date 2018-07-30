@@ -18,7 +18,7 @@ test('Bin File Count', (t) => {
     t.is(rawCount, dirCount - 1);
 });
 
-const folderName = process.env.Level === 'deploy' ? '.deploy_test' : '.script_test';
+const folderName = JSON.parse(process.env.npm_config_argv).remain[0];
 
 test('File Count', (t) => {
     const dirCount = glob.sync(

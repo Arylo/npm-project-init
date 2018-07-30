@@ -2,7 +2,7 @@ import * as path from 'path';
 import test from 'ava';
 const Config = require('y-config');
 
-const folderName = process.env.Level === 'deploy' ? '.deploy_test' : '.script_test';
+const folderName = JSON.parse(process.env.npm_config_argv).remain[0];
 const p = path.resolve(__dirname, '../..', folderName);
 
 test('tsconfig.test.json File Diff Check', (t) => {
