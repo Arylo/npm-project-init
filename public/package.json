@@ -34,6 +34,7 @@
   },
   "homepage": "https://github.com/Arylo/<project_name>#readme",
   "license": "MIT",
+  "yVersion": "2.0.4",
   "devDependencies": {
     "@types/node": "^10.1.2",
     "ava": "^0.25.0",

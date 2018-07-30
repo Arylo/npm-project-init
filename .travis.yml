@@ -15,7 +15,7 @@ script:
   - "node . -h"
   - "node . new .script_test"
   - "npm install"
-  - "npm t -- --match='!Deploy*'"
+  - "npm t"
 
 before_deploy:
   - "npm install"
@@ -26,7 +26,7 @@ before_deploy:
 deploy:
   skip_cleanup: true
   provider: npm
-  email: "arylo.open@gmail.com"
+  email: "arylo.open+npm@gmail.com"
   api_key: "${NPM_TOKEN}"
   on:
     branch: master
@@ -34,6 +34,6 @@ deploy:
 
 after_deploy:
   - "npx arylo-init new .deploy_test"
-  - "npm t -- --match='!Dist*'"
+  - "npm run test:deploy"
   - "npm install -g arylo-init"
   - "arylo-init -h"

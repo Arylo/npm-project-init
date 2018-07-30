@@ -18,16 +18,11 @@ test('Bin File Count', (t) => {
     t.is(rawCount, dirCount - 1);
 });
 
-test('Dist File Count', (t) => {
-    const dirCount = glob.sync(
-        '../.script_test/!(.git){,/**}', globOptions
-    ).length;
-    t.is(rawCount, dirCount);
-});
+const folderName = process.env.Level === 'deploy' ? '.deploy_test' : '.script_test';
 
-test('Deploy File Count', (t) => {
+test('File Count', (t) => {
     const dirCount = glob.sync(
-        '../.deploy_test/!(.git){,/**}', globOptions
+        `../${folderName}/!(.git){,/**}`, globOptions
     ).length;
     t.is(rawCount, dirCount);
 });
