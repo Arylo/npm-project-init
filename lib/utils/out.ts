@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import chalk from "chalk";
 
 export const pipe = (action: string, msg: string) => {
     if (action.length < 6) {
