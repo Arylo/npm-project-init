@@ -12,6 +12,7 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
         constants.resourcesPath : constants.resourcesRawPath;
 
     mkdirp.sync(path.resolve(targetPath, p));
+    process.stdout.write(`MKDIR  ${p}\n`);
     const paths = filepaths.filter((item) => {
         return new RegExp(`^${p}/[^/]+$`).test(item);
     });
@@ -31,6 +32,7 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
                     .replace(/<version>/g, constants.version);
                 fs.writeFileSync(to, data, { encoding: "utf-8" });
             });
+            process.stdout.write(`CREATE ${item}\n`);
             fromStream.pipe(toStream);
         }
     });
@@ -50,6 +52,8 @@ export const handler = () => {
 
     const filepaths = json.list;
     moveFiles(".", filepaths, () => {
+        process.stdout.write("CREATE ./.git\n");
         require("child_process").exec(`git init -q ${folderPath}`);
+        process.stdout.write(`\n  Path: ${constants.targetPath}\n`);
     });
 };
