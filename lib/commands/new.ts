@@ -3,6 +3,7 @@ import mkdirp = require("make-dir");
 import path = require("path");
 import constants = require("../constants");
 import { dealPath, exit } from "../utils";
+import * as out from "./../utils/out";
 
 import json = require("../data");
 
@@ -12,7 +13,7 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
         constants.resourcesPath : constants.resourcesRawPath;
 
     mkdirp.sync(path.resolve(targetPath, p));
-    process.stdout.write(`MKDIR  ${p}\n`);
+    out.pipe("MKDIR ", p);
     const paths = filepaths.filter((item) => {
         return new RegExp(`^${p}/[^/]+$`).test(item);
     });
@@ -32,7 +33,7 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
                     .replace(/<version>/g, constants.version);
                 fs.writeFileSync(to, data, { encoding: "utf-8" });
             });
-            process.stdout.write(`CREATE ${item}\n`);
+            out.pipe("CREATE", item);
             fromStream.pipe(toStream);
         }
     });
@@ -52,8 +53,8 @@ export const handler = () => {
 
     const filepaths = json.list;
     moveFiles(".", filepaths, () => {
-        process.stdout.write("CREATE ./.git\n");
+        out.pipe("CREATE", "./.git");
         require("child_process").exec(`git init -q ${folderPath}`);
-        process.stdout.write(`\n  Path: ${constants.targetPath}\n`);
+        out.pipe("\n  Path:", constants.targetPath);
     });
 };

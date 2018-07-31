@@ -7,11 +7,15 @@ node_js:
   - "6"
 
 script:
+  # Lint Code
   - "npm run lint"
+  # Build Module Start
   - "npm run build"
   - "node ./scripts/copy"
   - "rm -r node_modules"
   - "npm install --production"
+  # Build Module End
+  # Test Module
   - "node . -h"
   - "node . new .script_test"
   - "npm install"
