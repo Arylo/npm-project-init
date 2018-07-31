@@ -1,3 +1,5 @@
+import * as path from "path";
+
 export const exit = (msg: string | string[], code = 1) => {
     if (Array.isArray(msg)) {
         // tslint:disable-next-line:no-console
@@ -14,4 +16,21 @@ export const nameFilter = (name: string) => {
         .toLowerCase()
         .replace(/^[^a-z]*/i, "")
         .replace(/\W/g, "");
+};
+/**
+ * 处理位置字符串
+ * @param pathname 传入位置值
+ */
+export const dealPath = (pathname: string) => {
+    let p = pathname;
+    if (!p) {
+        exit("Invalid Path");
+    }
+    if (!path.isAbsolute(p)) {
+        p = path.resolve(process.cwd(), p);
+        if (!path.isAbsolute(p)) {
+            exit("Invalid Path");
+        }
+    }
+    return p;
 };

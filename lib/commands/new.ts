@@ -2,10 +2,9 @@ import fs = require("fs");
 import mkdirp = require("make-dir");
 import path = require("path");
 import constants = require("../constants");
-import { exit } from "../utils";
+import { dealPath, exit } from "../utils";
 
-// tslint:disable-next-line:no-var-requires
-const json = require("../data");
+import json = require("../data");
 
 const moveFiles = (p: string, filepaths: string[], cb?) => {
     const targetPath = constants.targetPath;
@@ -41,22 +40,13 @@ const moveFiles = (p: string, filepaths: string[], cb?) => {
 };
 
 export const handler = () => {
-    let folderPath = process.argv[3];
+    const folderPath = dealPath(process.argv[3]);
 
-    if (!folderPath) {
-        exit("Invaild Path");
-    }
-    if (!path.isAbsolute(folderPath)) {
-        folderPath = path.resolve(process.cwd(), folderPath);
-        if (!path.isAbsolute(folderPath)) {
-            exit("Invaild Path");
-        }
-    }
     if (fs.existsSync(folderPath)) {
         exit("Folder Exist");
     }
 
-    constants.setTargerPath(folderPath);
+    constants.setTargetPath(folderPath);
 
     const filepaths = json.list;
     moveFiles(".", filepaths, () => {

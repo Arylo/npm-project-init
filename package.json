@@ -16,7 +16,7 @@
     "lint": "npm run lint:typescript && npm run lint:javascript",
     "lint:typescript": "tslint lib/**/*.ts public/**/*.ts",
     "lint:javascript": "eslint scripts/**/*.js lib/**/*.js public/**/*.js",
-    "test": "ava ./test/**/*",
+    "test": "ava ./test/* ./test/**/*",
     "test:dist": "npm t .script_test",
     "test:deploy": "npm t .deploy_test"
   },

@@ -3,9 +3,9 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('make-dir');
 const md5 = require('md5');
-const { resourcesRawPath } = require('../dist/constants');
+const { resourcesRawPath, resourcesPath } = require('../dist/constants');
 
-const distPath = path.resolve(__dirname, '../dist/public');
+const distPath = resourcesPath;
 
 (() => {
     const filepaths = glob.sync('./**', {
