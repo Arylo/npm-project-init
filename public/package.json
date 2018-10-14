@@ -8,7 +8,9 @@
     "clean": "rimraf dist",
     "tsc": "tsc --locale zh-cn --pretty",
     "build": "npm run tsc -- -P tsconfig.json",
-    "pretest": "npm run clean && npm run tsc -- -P tsconfig.test.json",
+    "build:prod": "npm run tsc -- -P tsconfig.prod.json",
+    "build:test": "npm run tsc -- -P tsconfig.test.json",
+    "pretest": "npm run clean && npm run build:test && npm run resource",
     "test": "ava dist/test",
     "lint": "npm run lint:typescript && npm run lint:javascript",
     "lint:typescript": "tslint {lib,test}/**/*.ts",
@@ -46,6 +48,6 @@
     "eslint-plugin-standard": "^3.0.1",
     "rimraf": "^2.6.2",
     "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+    "typescript": "^2.9.2"
   }
 }

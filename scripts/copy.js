@@ -3,28 +3,33 @@ const fs = require('fs');
 const path = require('path');
 const mkdirp = require('make-dir');
 const md5 = require('md5');
-const { resourcesRawPath, resourcesPath } = require('../dist/constants');
 
-const distPath = resourcesPath;
+const resourcesRawPath = path.resolve(__dirname, '../public');
+
+const distPath = path.resolve(...[
+    __dirname,
+    '../dist/public',
+    fs.existsSync(path.resolve(__dirname, '../dist/lib')) ? '../lib/public' : ''
+]);
 
 (() => {
-    const filepaths = glob.sync('./**', {
+    const filePaths = glob.sync('./**', {
         cwd: resourcesRawPath,
         dot: true
     });
     mkdirp.sync(distPath);
     const json = {
-        list: filepaths,
+        list: filePaths,
         files: { }
     };
-    for (const filepath of filepaths) {
-        const p = path.resolve(resourcesRawPath, filepath);
+    for (const filePath of filePaths) {
+        const p = path.resolve(resourcesRawPath, filePath);
         const stat = fs.statSync(p);
         if (stat.isFile()) {
-            const md5sum = md5(filepath);
-            const newFilepath = path.resolve(distPath, md5sum);
-            json.files[filepath] = md5sum;
-            fs.createReadStream(p).pipe(fs.createWriteStream(newFilepath));
+            const md5sum = md5(filePath);
+            const newFilePath = path.resolve(distPath, md5sum);
+            json.files[filePath] = md5sum;
+            fs.createReadStream(p).pipe(fs.createWriteStream(newFilePath));
         }
     }
     fs.writeFileSync(

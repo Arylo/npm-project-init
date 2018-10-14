@@ -1,31 +1,43 @@
 language: node_js
 
+os:
+  - windows
+  - linux
+  - osx
+
 node_js:
   - "lts/*"
-  - "9"
+  - "10"
   - "8"
   - "6"
 
 script:
   # Lint Code
   - "npm run lint"
+  - "npm run test"
   # Build Module Start
+  - "npm run clean"
   - "npm run build"
-  - "node ./scripts/copy"
-  - "rm -r node_modules"
-  - "npm install --production"
+  - "npm run resource"
   # Build Module End
   # Test Module
+  - "rm -r node_modules"
+  - "npm install --production"
   - "node . -h"
   - "node . new .script_test"
-  - "npm install"
-  - "npm t .script_test"
+
+after_success:
+  - "npm install nyc --global"
+  - "npm install coveralls@~3.0.0 --global"
+  - "nyc npm test"
+  - "nyc report --reporter=text-lcov | coveralls"
 
 before_deploy:
+  - "rm -r node_modules"
   - "npm install"
   - "npm run clean"
-  - "npm run tsc -- -P ./tsconfig.prod.json"
-  - "node ./scripts/copy"
+  - "npm run build:prod"
+  - "npm run resource"
 
 deploy:
   skip_cleanup: true

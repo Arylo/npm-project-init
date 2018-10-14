@@ -23,4 +23,6 @@ export const handler = () => {
         `${$0}@${version} ${binPath}`,
         ""
     ].join("\n"));
+
+    return true;
 };

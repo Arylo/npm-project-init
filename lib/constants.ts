@@ -1,8 +1,14 @@
+import { existsSync } from "fs";
 import { basename, resolve } from "path";
 import { nameFilter } from "./utils";
 
 // tslint:disable-next-line:no-var-requires
-export const pkg = require("../package.json");
+export const pkg = require(resolve(...[
+    __dirname,
+    "..",
+    existsSync(`${__dirname}/../../package.json`) ? ".." : "",
+    "package.json"
+]));
 /**
  * 模块根地址
  */

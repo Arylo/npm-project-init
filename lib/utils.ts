@@ -17,6 +17,7 @@ export const nameFilter = (name: string) => {
         .replace(/^[^a-z]*/i, "")
         .replace(/\W/g, "");
 };
+
 /**
  * 处理位置字符串
  * @param pathname 传入位置值
@@ -33,4 +34,11 @@ export const dealPath = (pathname: string) => {
         }
     }
     return p;
+};
+
+export const getCommand = (name: string): {
+    handler(): boolean;
+    [key: string]: any;
+} => {
+    return require(`./commands/${name}`);
 };
