@@ -49,6 +49,7 @@
     "update-notifier": "^2.5.0"
   },
   "devDependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/find-up": "^2.1.1",
     "@types/glob": "^5.0.35",
     "@types/make-dir": "^1.0.3",
