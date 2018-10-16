@@ -17,7 +17,7 @@ export const handler = () => {
     moveFiles(constants.targetPath, () => {
         out.pipe("CREATE", "./.git");
         require("child_process").exec(`git init -q ${folderPath}`);
-        out.pipe("\n  Path:", constants.targetPath);
+        out.pipe("\n Path:", constants.targetPath);
     });
 
     return true;

@@ -21,6 +21,8 @@ export const handler = () => {
     switch (command) {
         case "new":
             return getCommand("new").handler();
+        case "update":
+            return getCommand("update").handler();
         case "help":
         default:
             return getCommand("help").handler();

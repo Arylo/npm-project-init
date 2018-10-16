@@ -2,17 +2,19 @@ import { existsSync } from "fs";
 import { basename, resolve } from "path";
 import { nameFilter } from "./utils";
 
-// tslint:disable-next-line:no-var-requires
-export const pkg = require(resolve(...[
-    __dirname,
-    "..",
-    existsSync(`${__dirname}/../../package.json`) ? ".." : "",
-    "package.json"
-]));
 /**
  * 模块根地址
  */
-export const rootPath = resolve(__dirname, "..");
+export const rootPath = resolve(
+    __dirname,
+    "..",
+    existsSync(`${__dirname}/../../package.json`) ? ".." : ""
+);
+// tslint:disable-next-line:no-var-requires
+export const pkg = require(resolve(...[
+    rootPath,
+    "package.json"
+]));
 /**
  * 当前模块版本
  */
@@ -32,7 +34,12 @@ export const resourcesRawPath = resolve(rootPath, resourcesName);
 /**
  * 资源文件使用位置
  */
-export const resourcesPath = resolve(__dirname, resourcesName);
+export const resourcesPath = resolve(
+    rootPath,
+    "dist",
+    existsSync(`${rootPath}/dist/lib`) ? "lib" : "",
+    resourcesName
+);
 
 const setProjectName = (path: string) => {
     projectName = nameFilter(path);

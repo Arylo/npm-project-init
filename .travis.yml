@@ -19,11 +19,8 @@ script:
   # Lint Code
   - "npm run lint"
   - "nyc npm run test"
-  # Build Module Start
-  - "npm run clean"
-  - "npm run build"
-  - "npm run resource"
-  # Build Module End
+  # Build Module
+  - "npm run clean && npm run build && npm run resource"
   # Test Module
   - "rm -rf node_modules"
   - "npm install --production"
