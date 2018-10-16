@@ -1,6 +1,6 @@
 # arylo-init
 
-Generate a Node.js Project for Arylo Edition
+Generate a Node.js Project for Arylo Edition / 用于新建一个Node.js项目的脚手架
 
 [![node][NPM_URL]][NPM_HREF]
 [![Travis][TRAVIS_URL]][TRAVIS_HREF]
@@ -9,21 +9,35 @@ Generate a Node.js Project for Arylo Edition
 [![Author][AUTHOR_URL]][AUTHOR_HREF]
 [![license][LICENSE_URL]][LICENSE_HREF]
 
-## Usages
+## Usages / 使用方法
 
-### New Project
+### New Project / 新建项目
 
-#### Method 0
+#### Method 0 / 方法0(推荐)
 
 ```shell
 npx arylo-init new <new_project_path>
 ```
 
-#### Method 1
+#### Method 1 / 方法1
 
 ```shell
 npm install arylo-init --global
 arylo-init new <new_project_path>
+```
+### Update Project / 更新项目
+
+#### Method 0 / 方法0(推荐)
+
+```shell
+npx arylo-init update <update_project_path>
+```
+
+#### Method 1 / 方法1
+
+```shell
+npm install arylo-init --global
+arylo-init update <update_project_path>
 ```
 
 [NPM_URL]: https://img.shields.io/node/v/arylo-init.svg?style=flat-square&maxAge=600

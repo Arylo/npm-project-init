@@ -10,7 +10,7 @@
     "build": "npm run tsc -- -P tsconfig.json",
     "build:prod": "npm run tsc -- -P tsconfig.prod.json",
     "build:test": "npm run tsc -- -P tsconfig.test.json",
-    "pretest": "npm run clean && npm run build:test && npm run resource",
+    "pretest": "npm run clean && npm run build:test",
     "test": "ava dist/test",
     "lint": "npm run lint:typescript && npm run lint:javascript",
     "lint:typescript": "tslint {lib,test}/**/*.ts",

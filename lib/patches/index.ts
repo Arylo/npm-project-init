@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import constants = require("../constants");
 
 interface IVersion {
     major: number;
@@ -22,6 +23,9 @@ export const hisVersions = fs.readdirSync(__dirname)
     .map((name) => name.replace(/\.[jt]s$/, ""));
 
 export const diffVersions = (ver: string) => {
+    if (ver === constants.version) {
+        return [ ];
+    }
     const curVersion = parseVersion(ver);
     const versions = hisVersions.reduce((arr, v) => {
         arr.push(parseVersion(v));
@@ -36,7 +40,7 @@ export const diffVersions = (ver: string) => {
                 return false;
             }
         }
-        return false;
+        return true;
     }).map((v) => `${v.major}.${v.minor}.${v.patch}`);
 };
 
