@@ -11,29 +11,31 @@ node_js:
   - "8"
   - "6"
 
+before_script:
+  - "npm install nyc --global"
+  - "npx -h || npm install npx --global"
+
 script:
   # Lint Code
   - "npm run lint"
-  - "npm run test"
+  - "nyc npm run test"
   # Build Module Start
   - "npm run clean"
   - "npm run build"
   - "npm run resource"
   # Build Module End
   # Test Module
-  - "rm -r node_modules"
+  - "rm -rf node_modules"
   - "npm install --production"
   - "node . -h"
   - "node . new .script_test"
 
 after_success:
-  - "npm install nyc --global"
   - "npm install coveralls@~3.0.0 --global"
-  - "nyc npm test"
   - "nyc report --reporter=text-lcov | coveralls"
 
 before_deploy:
-  - "rm -r node_modules"
+  - "rm -rf node_modules"
   - "npm install"
   - "npm run clean"
   - "npm run build:prod"
