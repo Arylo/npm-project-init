@@ -1,6 +1,5 @@
 import test from "ava";
-import * as fs from "fs";
-import * as path from "path";
+import { getPkg } from "../utils";
 import { patchBeforeMacro } from "./common";
 
 let TEST_PATH: string;
@@ -12,9 +11,7 @@ test.before((t) => {
 
 test("Check `package.json`", (t) => {
 
-    const data = JSON.parse(
-        fs.readFileSync(path.resolve(TEST_PATH, "package.json"), { encoding: "utf-8"})
-    );
+    const data = getPkg(TEST_PATH);
 
     t.is(-1, data.scripts.pretest.indexOf("npm run resource"));
     t.is(-1, data.scripts.pretest.indexOf(" && npm run resource"));

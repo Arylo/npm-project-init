@@ -3,9 +3,10 @@ import child_process = require("child_process");
 import * as fs from "fs";
 import * as path from "path";
 import { handler } from "./../lib/index";
+import { TEST_TEMP_PATH } from "./common";
 
 const TEST_PATH = path.resolve(...[
-    __dirname, "../TEST_PATH",
+    TEST_TEMP_PATH,
     `t${Math.ceil(Math.random() * 10000)}`
 ]);
 

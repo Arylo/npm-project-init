@@ -2,10 +2,7 @@ import child_process = require("child_process");
 import glob = require("glob");
 import path = require("path");
 import { handler } from "../../lib";
-
-const TEST_PATH = path.resolve(...[
-    __dirname, "../../TEST_PATH"
-]);
+import { TEST_TEMP_PATH } from "../common";
 
 const numberGlobPattern = "[1-9]+([0-9])";
 const NGP = numberGlobPattern;
@@ -25,7 +22,7 @@ export const patchBeforeMacro = (t, vers: string | string[]) => {
     vers = Array.isArray(vers) ? vers : [ vers];
     const tmpName = `t${Math.ceil(Math.random() * 10000)}-${vers.join("-").substr(0, 30)}`;
     const projectPaths = [
-        path.resolve(TEST_PATH, `${tmpName}`, "now", "aaa"),
+        path.resolve(TEST_TEMP_PATH, `${tmpName}`, "now", "aaa"),
     ];
     process.argv = [ process.argv0 , ".", "new", projectPaths[0] ];
     handler();
@@ -33,7 +30,7 @@ export const patchBeforeMacro = (t, vers: string | string[]) => {
         if (ver === curVersion) {
             projectPaths.push(projectPaths[0]);
         } else {
-            const p = path.resolve(TEST_PATH, `${tmpName}`, ver, "aaa");
+            const p = path.resolve(TEST_TEMP_PATH, `${tmpName}`, ver, "aaa");
             projectPaths.push(p);
             child_process.execSync(`npx arylo-init@${ver} new ${p}`);
         }

@@ -66,8 +66,8 @@ export const handler = () => {
         const versionList = ADD_MAP[filePoint];
         for (const version of versionList) {
             getVersion(version).add(filePoint);
-            out.pipe("CREATE", "./" +  filePoint);
         }
+        out.pipe("CREATE", "./" +  filePoint);
     }
     for (const filePoint of Object.keys(UPDATE_MAP)) {
         const versionList = UPDATE_MAP[filePoint];
@@ -76,15 +76,15 @@ export const handler = () => {
         }
         for (const version of versionList) {
             getVersion(version).update(filePoint);
-            out.pipe("UPDATE", "./" +  filePoint);
         }
+        out.pipe("UPDATE", "./" +  filePoint);
     }
     for (const filePoint of Object.keys(REMOVE_MAP)) {
         const versionList = REMOVE_MAP[filePoint];
         for (const version of versionList) {
             getVersion(version).remove(filePoint);
-            out.pipe("DELETE", "./" +  filePoint);
         }
+        out.pipe("DELETE", "./" +  filePoint);
     }
 
     const FILE_OPTIONS = {

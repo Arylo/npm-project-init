@@ -2,10 +2,11 @@ import test from "ava";
 import * as fs from "fs";
 import * as path from "path";
 import json = require("../../lib/data");
+import { FILE_OPTIONS, TEST_TEMP_PATH } from "../common";
 import { handler } from "./../../lib/index";
 
 const TEST_PATH = path.resolve(...[
-    __dirname, "../../TEST_PATH",
+    TEST_TEMP_PATH,
     `t${Math.ceil(Math.random() * 10000)}`
 ]);
 
@@ -19,7 +20,7 @@ test("command `new`", async (t) => {
     });
     Object.keys(json.files).forEach((p) => {
         const filePath = path.resolve(TEST_PATH, p);
-        const data = fs.readFileSync(filePath, { encoding: "utf-8" });
+        const data = fs.readFileSync(filePath, FILE_OPTIONS);
         [ "<year>", "<project_name>", "<version>" ].forEach((item) => {
             t.is(-1, data.indexOf(item));
         });

@@ -3,12 +3,12 @@ import * as fs from "fs";
 import * as glob from "glob";
 import { handler } from "../../lib";
 import { hisVersions } from "../../lib/patches/index";
+import { FILE_OPTIONS } from "../common";
 import { patchBeforeMacro } from "../patches/common";
 import { diffObject } from "./common";
 
 let projectPaths: string[];
 const versions = ["2.0.4"].concat(hisVersions);
-const FILE_OPTIONS = { encoding: "utf-8" };
 
 const filesMap = {
     allFiles: { },

@@ -1,3 +1,4 @@
+import child_process = require("child_process");
 import fs = require("fs");
 import constants = require("../constants");
 import { dealPath, exit } from "../utils";
@@ -15,8 +16,8 @@ export const handler = () => {
     constants.setTargetPath(folderPath);
 
     moveFiles(constants.targetPath, () => {
+        child_process.execSync(`git init -q ${folderPath}`);
         out.pipe("CREATE", "./.git");
-        require("child_process").exec(`git init -q ${folderPath}`);
         out.pipe("\n Path:", constants.targetPath);
     });
 

@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { basename, resolve } from "path";
 import { nameFilter } from "./utils";
 
@@ -10,11 +10,9 @@ export const rootPath = resolve(
     "..",
     existsSync(`${__dirname}/../../package.json`) ? ".." : ""
 );
-// tslint:disable-next-line:no-var-requires
-export const pkg = require(resolve(...[
-    rootPath,
-    "package.json"
-]));
+export const pkg = JSON.parse(
+    readFileSync(resolve(rootPath, "package.json"), { encoding: "utf-8" })
+);
 /**
  * 当前模块版本
  */
