@@ -1,5 +1,5 @@
-import * as pkg from "../utils/pkg";
 import constants = require("../constants");
+import * as pkg from "../utils/pkg";
 
 export const ADD_LIST = ["test/index.spec.ts"];
 export const UPDATE_LIST = ["package.json"];

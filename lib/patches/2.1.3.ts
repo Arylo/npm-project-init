@@ -1,6 +1,6 @@
-import * as json from "../utils/json";
+import { resolve } from "path";
 import constants = require("../constants");
-import { resolve } from 'path';
+import * as json from "../utils/json";
 
 export const UPDATE_LIST = ["package.json", "tsconfig.json"];
 
@@ -13,7 +13,7 @@ export const update = (filePoint: string) => {
 
     const data = json.read(filePath);
 
-    switch(UPDATE_LIST.indexOf(filePoint) + 1) {
+    switch (UPDATE_LIST.indexOf(filePoint) + 1) {
         case 1:
             data.devDependencies.typescript = "^3.1.3";
             break;

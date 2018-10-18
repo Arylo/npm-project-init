@@ -2,10 +2,10 @@ import fs = require("fs");
 import path = require("path");
 import * as rimraf from "rimraf";
 import constants = require("../constants");
+import data = require("../data");
 import { dealPath, exit } from "../utils";
 import * as out from "./../utils/out";
 import * as pkg from "./../utils/pkg";
-import data = require("../data");
 
 import { diffVersions, getVersion } from "../patches";
 
