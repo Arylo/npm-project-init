@@ -24,6 +24,9 @@ export const pipe = (action: string, msg: string) => {
         case "DELETE":
             action = chalk.red(action);
             break;
+        case "SKIP":
+            action = chalk.magenta(action);
+            break;
     }
     return process.stdout.write(`${action} ${msg}\n`);
 };

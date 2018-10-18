@@ -5,7 +5,6 @@ import { handler } from "../../lib";
 import { hisVersions } from "../../lib/patches/index";
 import { FILE_OPTIONS } from "../common";
 import { patchBeforeMacro } from "../patches/common";
-import { diffObject } from "./common";
 
 let projectPaths: string[];
 const versions = ["2.0.4"].concat(hisVersions);
@@ -42,8 +41,8 @@ for (let i = 0; i < versions.length; i++) {
         const sourcePath = projectPaths[0];
         const targetPath = projectPaths[i + 1];
 
-        diffObject(t, getAllFiles(sourcePath), getAllFiles(targetPath));
-        diffObject(t, getFiles(sourcePath), getFiles(targetPath));
+        t.deepEqual(getAllFiles(sourcePath), getAllFiles(targetPath));
+        t.deepEqual(getFiles(sourcePath), getFiles(targetPath));
 
         for (const name of getFiles(sourcePath)) {
             const sourceData = fs.readFileSync(`${sourcePath}/${name}`, FILE_OPTIONS).trim();
@@ -52,7 +51,7 @@ for (let i = 0; i < versions.length; i++) {
             if (/\.json$/.test(name)) {
                 const sourceObject = JSON.parse(sourceData);
                 const targetObject = JSON.parse(targetData);
-                diffObject(t, sourceObject, targetObject, `File ${name}`);
+                t.deepEqual(sourceObject, targetObject, `File ${name}`);
             } else {
                 t.is(sourceData.length, targetData.length, `File ${name}`);
                 t.is(sourceData, targetData, `File ${name}`);

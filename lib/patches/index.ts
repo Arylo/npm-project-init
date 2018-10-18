@@ -7,14 +7,14 @@ interface IVersion {
     patch: number;
 }
 
-export const getVersion = (ver: string): {
+interface IVersionObject {
     ADD_LIST?: string[];
     UPDATE_LIST?: string[];
     REMOVE_LIST?: string[];
-    add?: (filePoint: string) => any;
     update?: (filePoint: string) => any;
-    remove?: (filePoint: string) => any;
-} => {
+}
+
+export const getVersion = (ver: string): IVersionObject => {
     return require(`./${ver}`);
 };
 
@@ -27,11 +27,10 @@ export const diffVersions = (ver: string) => {
         return [ ];
     }
     const curVersion = parseVersion(ver);
-    const versions = hisVersions.reduce((arr, v) => {
+    return hisVersions.reduce((arr, v) => {
         arr.push(parseVersion(v));
         return arr;
-    }, [ ] as IVersion[]);
-    return versions.filter((v) => {
+    }, [ ] as IVersion[]).filter((v) => {
         for (const level of ["major", "minor", "patch"]) {
             if (v[level] > curVersion[level]) {
                 return true;
@@ -40,7 +39,7 @@ export const diffVersions = (ver: string) => {
                 return false;
             }
         }
-        return true;
+        return false;
     }).map((v) => `${v.major}.${v.minor}.${v.patch}`);
 };
 

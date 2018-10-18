@@ -48,3 +48,5 @@ export const setTargetPath = (path: string) => {
     targetPath = path;
     return setProjectName(basename(path));
 };
+
+export const FILE_OPTIONS = { encoding: "utf-8" };

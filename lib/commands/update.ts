@@ -1,8 +1,11 @@
 import fs = require("fs");
 import path = require("path");
+import * as rimraf from "rimraf";
 import constants = require("../constants");
 import { dealPath, exit } from "../utils";
 import * as out from "./../utils/out";
+import * as pkg from "./../utils/pkg";
+import data = require("../data");
 
 import { diffVersions, getVersion } from "../patches";
 
@@ -63,11 +66,7 @@ export const handler = () => {
     });
 
     for (const filePoint of Object.keys(ADD_MAP)) {
-        const versionList = ADD_MAP[filePoint];
-        for (const version of versionList) {
-            getVersion(version).add(filePoint);
-        }
-        out.pipe("CREATE", "./" +  filePoint);
+        add(filePoint);
     }
     for (const filePoint of Object.keys(UPDATE_MAP)) {
         const versionList = UPDATE_MAP[filePoint];
@@ -80,23 +79,33 @@ export const handler = () => {
         out.pipe("UPDATE", "./" +  filePoint);
     }
     for (const filePoint of Object.keys(REMOVE_MAP)) {
-        const versionList = REMOVE_MAP[filePoint];
-        for (const version of versionList) {
-            getVersion(version).remove(filePoint);
-        }
-        out.pipe("DELETE", "./" +  filePoint);
+        remove(filePoint);
     }
 
-    const FILE_OPTIONS = {
-        encoding: "utf-8"
-    };
-    const filePath = path.resolve(constants.targetPath, "package.json");
-    const json = JSON.parse(fs.readFileSync(filePath, FILE_OPTIONS));
+    const json = pkg.read(constants.targetPath);
 
     json.yVersion = constants.version;
 
-    fs.writeFileSync(filePath, JSON.stringify(json, null, 2), FILE_OPTIONS);
+    pkg.write(constants.targetPath, json);
     out.pipe("\n    ::", `v${sourceProjectVersion} => v${constants.version} Updated`);
 
     return true;
+};
+
+const add = (filePoint: string) => {
+    const rawFileName = data.files["./" + filePoint];
+    const from =  path.resolve(constants.resourcesPath, rawFileName);
+    const to =  path.resolve(constants.targetPath, filePoint);
+    if (fs.existsSync(to)) {
+        out.pipe("SKIP", "./" +  filePoint);
+    } else {
+        fs.createReadStream(from).pipe(fs.createWriteStream(to));
+        out.pipe("CREATE", "./" +  filePoint);
+    }
+};
+
+const remove = (filePoint: string) => {
+    const filePath = path.resolve(constants.targetPath, filePoint);
+    rimraf.sync(filePath);
+    out.pipe("DELETE", "./" +  filePoint);
 };
