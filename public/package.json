@@ -17,7 +17,8 @@
     "lint:javascript": "eslint {lib,test}/**/*.js"
   },
   "keywords": [
-    "arylo"
+    "arylo",
+    "typescript"
   ],
   "engines": {
     "node": ">=6"
@@ -46,7 +47,10 @@
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1",
+    "husky": "^1.1.2",
+    "lint-staged": "^7.3.0",
     "rimraf": "^2.6.2",
+    "prettier": "^1.14.3",
     "tslint": "^5.10.0",
     "typescript": "^3.1.3"
   }
