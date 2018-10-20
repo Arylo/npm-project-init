@@ -1,6 +1,7 @@
 import * as path from "path";
 import constants = require("../constants");
 import * as json from "../utils/json";
+import { Pkg } from "../utils/pkg";
 
 export const UPDATE_LIST = [
     "package.json",
@@ -15,13 +16,15 @@ export const update = (filePoint: string) => {
         return;
     }
     const filePath = path.resolve(constants.targetPath, filePoint);
-    const data = json.read(filePath);
 
     switch (UPDATE_LIST.indexOf(filePoint) + 1) {
         case 1:
-            data.scripts.test = "ava dist/test/**/*.{spec,e2e}.js";
-            break;
+            new Pkg(constants.targetPath)
+                .updateScript("test", "ava dist/test/**/*.{spec,e2e}.js")
+                .save();
+            return;
         case 2:
+            const data = json.read(filePath);
             for (const key of Object.keys(data.linters)) {
                 const commands = data.linters[key];
                 const pCommands = commands.filter((item) => {
@@ -42,21 +45,35 @@ export const update = (filePoint: string) => {
                     }
                 }
             }
+            json.write(filePath, data);
             break;
         case 3:
-            data.include.push("test/**/*");
+            new json.Json(filePath)
+                .modify((obj) => {
+                    obj.include.push("test/**/*");
+                    return obj;
+                })
+                .save();
             break;
         case 4:
-            data.compilerOptions.declarationMap = false;
-            if (!data.exclude) {
-                data.exclude = [];
-            }
-            data.exclude.push("test/**/*");
+            new json.Json(filePath)
+                .modify((obj) => {
+                    obj.compilerOptions.declarationMap = false;
+                    if (!obj.exclude) {
+                        obj.exclude = [];
+                    }
+                    obj.exclude.push("test/**/*");
+                    return obj;
+                })
+                .save();
             break;
         case 5:
-            delete data.include;
+            new json.Json(filePath)
+                .modify((obj) => {
+                    delete obj.include;
+                    return obj;
+                })
+                .save();
             break;
     }
-
-    json.write(filePath, data);
 };

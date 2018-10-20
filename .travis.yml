@@ -20,7 +20,7 @@ script:
   - "npm run lint"
   - "nyc npm run test"
   # Build Module
-  - "npm run clean && npm run build && npm run resource"
+  - "npm run clean && npm run build:prod && npm run resource"
   # Test Module
   - "rm -rf node_modules"
   - "npm install --production"

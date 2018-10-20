@@ -1,4 +1,4 @@
-import test, { Context, GenericTestContext } from "ava";
+import test from "ava";
 import child_process = require("child_process");
 import * as fs from "fs";
 import * as path from "path";
@@ -39,8 +39,8 @@ for (const command of commands) {
                 break;
             case 3:
                 existsFilesList.push(
-                    "dist/index.js",
-                    "dist/index.js.map",
+                    "dist/lib/index.js",
+                    "dist/lib/index.js.map",
                     // Since 2.1.3
                     "dist/lib/index.d.ts",
                     "dist/lib/index.d.ts.map"
@@ -53,13 +53,13 @@ for (const command of commands) {
                 existsFilesList.push(
                     "dist/index.js",
                     // Since 2.1.3
-                    "dist/lib/index.d.ts"
-                    // "dist/lib/index.d.ts.map"
+                    "dist/index.d.ts"
+                    // "dist/index.d.ts.map"
                 );
                 unexistsFilesList.push(
                     "dist/index.js.map",
-                    // Since 2.1.5
-                    "dist/lib/index.d.ts.map"
+                    // When 2.1.5
+                    "dist/index.d.ts.map"
                 );
                 break;
             case 6:
