@@ -11,7 +11,7 @@
     "build:prod": "npm run tsc -- -P tsconfig.prod.json",
     "build:test": "npm run tsc -- -P tsconfig.test.json",
     "pretest": "npm run clean && npm run build:test",
-    "test": "ava dist/test",
+    "test": "ava dist/test/**/*.{spec,e2e}.js",
     "lint": "npm run lint:typescript && npm run lint:javascript",
     "lint:typescript": "tslint {lib,test}/**/*.ts",
     "lint:javascript": "eslint {lib,test}/**/*.js"

@@ -6,8 +6,8 @@ import { patchBeforeMacro } from "./common";
 
 let p: string;
 
-test.before((t) => {
-    const projectPaths = patchBeforeMacro(t, "2.0.4");
+test.before(async (t) => {
+    const projectPaths = await patchBeforeMacro(t, "2.0.4");
     p = projectPaths[1];
 });
 

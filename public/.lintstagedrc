@@ -1,13 +1,13 @@
 {
   "linters": {
     "{lib,public,scripts,test}/**/*.ts": [
-      "npm run lint:typescript -- --fix",
       "prettier --write --tab-width 4",
+      "npm run lint:typescript -- --fix",
       "git add"
     ],
     "{lib,public,scripts,test}/**/*.js": [
-      "npm run lint:javascript -- --fix",
       "prettier --write --tab-width 4",
+      "npm run lint:javascript -- --fix",
       "git add"
     ],
     "{,public/}*.{json,yaml,yml}": [

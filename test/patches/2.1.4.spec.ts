@@ -1,17 +1,21 @@
 import test from "ava";
-import * as fs from "fs";
 import * as path from "path";
+import Config = require("y-config");
+import { getVersion } from "../../lib/patches";
 import * as json from "../../lib/utils/json";
-import { patchBeforeMacro } from "./common";
+import { addMacro, patchBeforeMacro } from "./common";
 
+const config = new Config<{ cwd: string }>();
+const VERSION = path.basename(__filename).replace(/^(\d+\.\d+\.\d+).*/, "$1");
 let TEST_PATH: string;
 
-test.before(t => {
-    const projectPaths = patchBeforeMacro(t, "2.1.4");
+test.before(async (t) => {
+    const projectPaths = await patchBeforeMacro(t, VERSION);
     TEST_PATH = projectPaths[1];
+    config.addConfig({ cwd: TEST_PATH });
 });
 
-test("Check `package.json`", t => {
+test("Check `package.json`", (t) => {
     const data = json.read(path.resolve(TEST_PATH, "package.json"));
 
     t.is("^1.1.2", data.devDependencies.husky);
@@ -20,10 +24,4 @@ test("Check `package.json`", t => {
     t.not(-1, data.keywords.indexOf("typescript"));
 });
 
-test("Chcek `.lintstagedrc`", t => {
-    t.true(fs.existsSync(path.resolve(TEST_PATH, ".lintstagedrc")));
-});
-
-test("Chcek `.huskyrc.json`", t => {
-    t.true(fs.existsSync(path.resolve(TEST_PATH, ".huskyrc.json")));
-});
+addMacro(getVersion(VERSION).ADD_LIST, config);

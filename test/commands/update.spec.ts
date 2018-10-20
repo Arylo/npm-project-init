@@ -10,25 +10,28 @@ let projectPaths: string[];
 const versions = ["2.0.4"].concat(hisVersions);
 
 const filesMap = {
-    allFiles: { },
-    files: { },
+    allFiles: {},
+    files: {}
 };
 
 const getAllFiles = (p: fs.PathLike): string[] => {
-    filesMap.allFiles[p.toString()] =
-        glob.sync("./!(.git){,/**}", { cwd: projectPaths[0], dot: true });
+    filesMap.allFiles[p.toString()] = glob.sync("./!(.git){,/**}", {
+        cwd: projectPaths[0],
+        dot: true
+    });
     return filesMap.allFiles[p.toString()];
 };
 const getFiles = (p: fs.PathLike): string[] => {
-    filesMap.files[p.toString()] = getAllFiles(p)
-        .filter((name) => fs.statSync(`${p}/${name}`).isFile());
+    filesMap.files[p.toString()] = getAllFiles(p).filter((name) =>
+        fs.statSync(`${p}/${name}`).isFile()
+    );
     return filesMap.files[p.toString()];
 };
 
 test.before(async (t) => {
-    projectPaths = patchBeforeMacro(t, versions);
+    projectPaths = await patchBeforeMacro(t, versions);
     for (const projectPath of projectPaths) {
-        process.argv = [ process.argv0 , ".", "update", projectPath ];
+        process.argv = [process.argv0, ".", "update", projectPath];
         handler();
         await new Promise((resolve) => setTimeout(resolve, 1000));
     }
@@ -45,8 +48,12 @@ for (let i = 0; i < versions.length; i++) {
         t.deepEqual(getFiles(sourcePath), getFiles(targetPath));
 
         for (const name of getFiles(sourcePath)) {
-            const sourceData = fs.readFileSync(`${sourcePath}/${name}`, FILE_OPTIONS).trim();
-            const targetData = fs.readFileSync(`${targetPath}/${name}`, FILE_OPTIONS).trim();
+            const sourceData = fs
+                .readFileSync(`${sourcePath}/${name}`, FILE_OPTIONS)
+                .trim();
+            const targetData = fs
+                .readFileSync(`${targetPath}/${name}`, FILE_OPTIONS)
+                .trim();
 
             if (/\.json$/.test(name)) {
                 const sourceObject = JSON.parse(sourceData);

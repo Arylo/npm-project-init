@@ -6,13 +6,12 @@ import { patchBeforeMacro } from "./common";
 
 let TEST_PATH: string;
 
-test.before((t) => {
-    const projectPaths = patchBeforeMacro(t, "2.0.5");
+test.before(async (t) => {
+    const projectPaths = await patchBeforeMacro(t, "2.0.5");
     TEST_PATH = projectPaths[1];
 });
 
 test("Check New File", (t) => {
-
     t.true(fs.existsSync(path.resolve(TEST_PATH, "test/index.spec.ts")));
 
     const data = fs.readFileSync(path.resolve(TEST_PATH, "test/index.spec.ts"));

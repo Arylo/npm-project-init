@@ -2,9 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "importHelpers": true,
     "pretty": true,
     "sourceMap": true,
@@ -15,7 +13,5 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": [
-    "lib/**/*"
-  ]
+  "include": ["lib/**/*", "test/**/*"]
 }
