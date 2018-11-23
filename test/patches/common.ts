@@ -77,6 +77,7 @@ export const patchBeforeMacro = async (t, vers: string | string[]) => {
             projectPaths.push(p);
         }
     }
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     return projectPaths;
 };
 

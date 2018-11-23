@@ -72,8 +72,12 @@ export class Pkg extends json.Json<IPkgObj> {
         return this.object.scripts[action];
     }
 
-    public updateScript(action: string, command: string) {
-        this.object.scripts[action] = command;
+    public updateScript(action: string, command?: string) {
+        if (command) {
+            this.object.scripts[action] = command;
+        } else {
+            delete this.object.scripts[action];
+        }
         return this;
     }
 

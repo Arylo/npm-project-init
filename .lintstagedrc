@@ -14,10 +14,6 @@
       "prettier --write --tab-width 2",
       "git add"
     ],
-    "{,public/}.editorconfig": [
-      "prettier --write --tab-width 2 --parser yaml",
-      "git add"
-    ],
     "{,public/}.lintstagedrc": [
       "prettier --write --tab-width 2 --parser json",
       "git add"

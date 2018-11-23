@@ -14,7 +14,7 @@
     "test": "ava dist/test/**/*.{spec,e2e}.js",
     "lint": "npm run lint:typescript && npm run lint:javascript",
     "lint:typescript": "tslint {lib,test}/**/*.ts",
-    "lint:javascript": "eslint {lib,test}/**/*.js"
+    "lint:javascript": "eslint ./**/*.js"
   },
   "keywords": [
     "arylo",

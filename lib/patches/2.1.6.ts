@@ -1,7 +1,6 @@
 import * as path from "path";
 import constants = require("../constants");
 import * as json from "../utils/json";
-import { Pkg } from "../utils/pkg";
 
 export const UPDATE_LIST = [".huskyrc.json"];
 

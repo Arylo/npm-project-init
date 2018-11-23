@@ -1,6 +1,6 @@
 {
   "name": "arylo-init",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {
@@ -18,7 +18,7 @@
     "build:test": "npm run tsc -- -P tsconfig.test.json",
     "lint": "npm run lint:typescript && npm run lint:javascript",
     "lint:typescript": "tslint lib/**/*.ts public/**/*.ts",
-    "lint:javascript": "eslint scripts/**/*.js lib/**/*.js public/**/*.js",
+    "lint:javascript": "eslint ./**/*.js",
     "pretest": "npm run clean && npm run build:test && npm run resource",
     "test": "ava ./dist/test/**/*.spec.*"
   },
