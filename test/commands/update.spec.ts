@@ -55,7 +55,7 @@ for (let i = 0; i < versions.length; i++) {
                 .readFileSync(`${targetPath}/${name}`, FILE_OPTIONS)
                 .trim();
 
-            if (/\.json$/.test(name)) {
+            if (/\.json$/.test(name) || /\.lintstagedrc$/.test(name)) {
                 const sourceObject = JSON.parse(sourceData);
                 const targetObject = JSON.parse(targetData);
                 t.deepEqual(sourceObject, targetObject, `File ${name}`);
