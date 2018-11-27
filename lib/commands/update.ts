@@ -1,4 +1,5 @@
 import fs = require("fs");
+import mkdirp = require("make-dir");
 import path = require("path");
 import * as rimraf from "rimraf";
 import constants = require("../constants");
@@ -27,41 +28,44 @@ export const handler = () => {
     if (!sourceProjectVersion) {
         exit("Miss yVersion Param in `package.json`");
     }
-    const ADD_MAP = { };
-    const UPDATE_MAP = { };
-    const REMOVE_MAP = { };
+    const ADD_MAP = {};
+    const UPDATE_MAP = {};
+    const REMOVE_MAP = {};
 
     const versions = diffVersions(sourceProjectVersion);
 
     if (versions.length === 0 && sourceProjectVersion === constants.version) {
-        return out.pipe("\n    ::", "This is Latest Project Template");
+        return out.pipe(
+            "\n    ::",
+            "This is Latest Project Template"
+        );
     }
 
     versions.forEach((version) => {
         const versionObj = getVersion(version);
-        for (const filePoint of versionObj.ADD_LIST || [ ]) {
+        for (const filePoint of toUniList(versionObj.ADD_LIST)) {
             if (REMOVE_MAP[filePoint]) {
                 REMOVE_MAP[filePoint] = null;
             }
-            ADD_MAP[filePoint] = [ version ];
+            ADD_MAP[filePoint] = [version];
         }
-        for (const filePoint of versionObj.UPDATE_LIST || [ ]) {
+        for (const filePoint of toUniList(versionObj.UPDATE_LIST)) {
             if (ADD_MAP[filePoint]) {
                 continue;
             }
             if (!UPDATE_MAP[filePoint]) {
-                UPDATE_MAP[filePoint] = [ ];
+                UPDATE_MAP[filePoint] = [];
             }
             UPDATE_MAP[filePoint].push(version);
         }
-        for (const filePoint of versionObj.REMOVE_LIST || [ ]) {
+        for (const filePoint of toUniList(versionObj.REMOVE_LIST)) {
             if (ADD_MAP[filePoint]) {
                 UPDATE_MAP[filePoint] = null;
             }
             if (UPDATE_MAP[filePoint]) {
                 UPDATE_MAP[filePoint] = null;
             }
-            REMOVE_MAP[filePoint] = [ version ];
+            REMOVE_MAP[filePoint] = [version];
         }
     });
 
@@ -71,12 +75,15 @@ export const handler = () => {
     for (const filePoint of Object.keys(UPDATE_MAP)) {
         const versionList = UPDATE_MAP[filePoint];
         if (!fs.existsSync(path.resolve(constants.targetPath, filePoint))) {
-            exit(`Miss \`./${filePoint}\``);
+            exit(`Miss \`${filePoint}\``);
         }
         for (const version of versionList) {
-            getVersion(version).update(filePoint);
+            getVersion(version).update(filePoint.replace(/^\.\//, ""));
         }
-        out.pipe("UPDATE", "./" +  filePoint);
+        out.pipe(
+            "UPDATE",
+            filePoint
+        );
     }
     for (const filePoint of Object.keys(REMOVE_MAP)) {
         remove(filePoint);
@@ -87,25 +94,53 @@ export const handler = () => {
     json.yVersion = constants.version;
 
     pkg.write(constants.targetPath, json);
-    out.pipe("\n    ::", `v${sourceProjectVersion} => v${constants.version} Updated`);
+    out.pipe(
+        "\n    ::",
+        `v${sourceProjectVersion} => v${constants.version} Updated`
+    );
 
     return true;
 };
 
 const add = (filePoint: string) => {
-    const rawFileName = data.files["./" + filePoint];
-    const from =  path.resolve(constants.resourcesPath, rawFileName);
-    const to =  path.resolve(constants.targetPath, filePoint);
+    const rawFileName = data.files[filePoint];
+    const from = path.resolve(constants.resourcesPath, rawFileName);
+    const to = path.resolve(constants.targetPath, filePoint);
+    if (!fs.existsSync(path.dirname(to))) {
+        mkdirp.sync(path.dirname(to));
+    }
     if (fs.existsSync(to)) {
-        out.pipe("SKIP", "./" +  filePoint);
+        out.pipe(
+            "SKIP",
+            filePoint
+        );
     } else {
         fs.createReadStream(from).pipe(fs.createWriteStream(to));
-        out.pipe("CREATE", "./" +  filePoint);
+        out.pipe(
+            "CREATE",
+            filePoint
+        );
     }
 };
 
 const remove = (filePoint: string) => {
     const filePath = path.resolve(constants.targetPath, filePoint);
     rimraf.sync(filePath);
-    out.pipe("DELETE", "./" +  filePoint);
+    out.pipe(
+        "DELETE",
+        filePoint
+    );
+};
+
+const toUniList = (list: string[] = []) => {
+    return list.map((item) => {
+        return (
+            "./" +
+            path
+                .resolve(__dirname, item)
+                .replace(__dirname, "")
+                .replace(/\\/g, "/")
+                .replace(/^./, "")
+        );
+    });
 };
