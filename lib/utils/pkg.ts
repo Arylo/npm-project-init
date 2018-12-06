@@ -40,30 +40,30 @@ export class Pkg extends json.Json<IPkgObj> {
         super(path.resolve(p.toString(), "package.json"));
     }
 
-    public getSaveDependencies(name: string) {
+    public getSaveDependency(name: string) {
         return this.object.dependencies[name];
     }
 
-    public updateSaveDependencies(name: string, version: string) {
+    public updateSaveDependency(name: string, version: string) {
         this.object.dependencies[name] = version;
         return this;
     }
 
-    public deleteSaveDependencies(name: string) {
+    public deleteSaveDependency(name: string) {
         delete this.object.dependencies[name];
         return this;
     }
 
-    public getDevDependencies(name: string) {
+    public getDevDependency(name: string) {
         return this.object.devDependencies[name];
     }
 
-    public updateDevDependencies(name: string, version: string) {
+    public updateDevDependency(name: string, version: string) {
         this.object.devDependencies[name] = version;
         return this;
     }
 
-    public deleteDevDependencies(name: string) {
+    public deleteDevDependency(name: string) {
         delete this.object.devDependencies[name];
         return this;
     }

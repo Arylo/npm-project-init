@@ -18,8 +18,8 @@ export const update = (filePoint: string) => {
             }
             return obj;
         })
-        .updateDevDependencies("husky", "^1.1.2")
-        .updateDevDependencies("lint-staged", "^7.3.0")
-        .updateDevDependencies("prettier", "^1.14.3")
+        .updateDevDependency("husky", "^1.1.2")
+        .updateDevDependency("lint-staged", "^7.3.0")
+        .updateDevDependency("prettier", "^1.14.3")
         .save();
 };

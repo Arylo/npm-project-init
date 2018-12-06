@@ -19,12 +19,12 @@ export const update = (filePoint: string) => {
         case 2:
             const pkg = new Pkg(constants.targetPath);
 
-            pkg.updateDevDependencies("@commitlint/cli", "^7.2.1");
-            pkg.updateDevDependencies(
+            pkg.updateDevDependency("@commitlint/cli", "^7.2.1");
+            pkg.updateDevDependency(
                 "@commitlint/config-conventional",
                 "^7.1.2"
             );
-            pkg.updateDevDependencies("@commitlint/lint", "^7.2.1");
+            pkg.updateDevDependency("@commitlint/lint", "^7.2.1");
 
             pkg.save();
             break;
