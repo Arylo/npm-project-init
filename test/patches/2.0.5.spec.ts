@@ -1,7 +1,7 @@
 import test from "ava";
 import * as fs from "fs";
 import * as path from "path";
-import { getPkg } from "../utils";
+import { Pkg } from "../../lib/utils/pkg";
 import { patchBeforeMacro } from "./common";
 
 let TEST_PATH: string;
@@ -24,6 +24,6 @@ test("Check Unexist Files", (t) => {
 });
 
 test("Check yVersion Parma", (t) => {
-    const data = getPkg(TEST_PATH);
+    const data = new Pkg(TEST_PATH).toObject();
     t.is(data.yVersion, "2.0.5");
 });

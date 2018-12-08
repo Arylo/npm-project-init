@@ -1,39 +1,27 @@
 import * as fs from "fs";
 import { FILE_OPTIONS } from "../constants";
+import { IAdapter } from "./adapter.d";
+import { Conf } from "./config";
 
-export const read = (p: fs.PathLike) => {
-    const filePath = p;
-    if (!fs.existsSync(filePath)) {
-        return null;
-    }
-    try {
-        return JSON.parse(fs.readFileSync(filePath, FILE_OPTIONS));
-    } catch (error) {
-        return null;
+const adapter: IAdapter = {
+    read: (p) => {
+        const filePath = p;
+        if (!fs.existsSync(filePath)) {
+            return null;
+        }
+        try {
+            return JSON.parse(fs.readFileSync(filePath, FILE_OPTIONS));
+        } catch (error) {
+            return null;
+        }
+    },
+    write: (p, data) => {
+        fs.writeFileSync(p, JSON.stringify(data, null, 2), FILE_OPTIONS);
     }
 };
 
-export const write = (p: fs.PathLike, data: object) => {
-    fs.writeFileSync(p, JSON.stringify(data, null, 2), FILE_OPTIONS);
-};
-
-export class Json<T extends { [name: string]: any } = any> {
-    protected filePath: string;
-    protected object: T;
+export class Json<T = { [key: string]: any }> extends Conf<T> {
     constructor(p: fs.PathLike) {
-        this.filePath = p.toString();
-        this.object = read(this.filePath);
-    }
-
-    public modify(fn: (obj: T) => T) {
-        this.object = fn(this.object);
-        return this;
-    }
-    public save() {
-        return write(this.filePath, this.object);
-    }
-
-    public toObject() {
-        return this.object;
+        super(p, adapter);
     }
 }

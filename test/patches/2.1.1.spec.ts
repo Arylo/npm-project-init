@@ -1,5 +1,5 @@
 import test from "ava";
-import { getPkg } from "../utils";
+import { Pkg } from "../../lib/utils/pkg";
 import { patchBeforeMacro } from "./common";
 
 let TEST_PATH: string;
@@ -10,7 +10,7 @@ test.before(async (t) => {
 });
 
 test("Check `package.json`", (t) => {
-    const data = getPkg(TEST_PATH);
+    const data = new Pkg(TEST_PATH).toObject();
 
     t.is(-1, data.scripts.pretest.indexOf("npm run resource"));
     t.is(-1, data.scripts.pretest.indexOf(" && npm run resource"));

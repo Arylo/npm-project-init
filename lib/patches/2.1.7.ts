@@ -1,7 +1,8 @@
 import * as path from "path";
 import constants = require("../constants");
-import * as json from "../utils/json";
+import { ILintstagedrc } from "../utils/json.d";
 import { Pkg } from "../utils/pkg";
+import { Json } from "./../utils/json";
 
 export const ADD_LIST = [".eslintignore"];
 
@@ -12,44 +13,39 @@ export const update = (filePoint: string) => {
 
     switch (UPDATE_LIST.indexOf(filePoint) + 1) {
         case 1:
-            const data = json.read(filePath);
+            const json = new Json<ILintstagedrc>(filePath);
 
-            for (const key of Object.keys(data.linters)) {
+            for (const key of Object.keys(json.toObject().linters)) {
                 if (/\.editorconfig$/.test(key)) {
-                    delete data.linters[key];
+                    json.modify((obj) => {
+                        delete obj.linters[key];
+                        return obj;
+                    });
                     continue;
                 }
+                let newKey: string;
                 if (key.indexOf("{lib,public,scripts,test}") !== -1) {
-                    const newKey = key.replace(
-                        "{lib,public,scripts,test}",
-                        "."
-                    );
-                    data.linters[newKey] = data.linters[key];
-                    delete data.linters[key];
-                    continue;
+                    newKey = key.replace("{lib,public,scripts,test}", ".");
                 }
                 if (key === "{,public/}*.{json,yaml,yml}") {
-                    const newKey = key.replace("{,public/}", "./**/");
-                    data.linters[newKey] = data.linters[key];
-                    delete data.linters[key];
-                    continue;
+                    newKey = key.replace("{,public/}", "./**/");
                 }
                 if (key === "{,public/}.lintstagedrc") {
-                    const newKey = key.replace("{,public/}", "./");
-                    data.linters[newKey] = data.linters[key];
-                    delete data.linters[key];
-                    continue;
+                    newKey = key.replace("{,public/}", "./");
                 }
+                json.modify((obj) => {
+                    obj.linters[newKey] = obj.linters[key];
+                    delete obj.linters[key];
+                    return obj;
+                });
             }
 
-            json.write(filePath, data);
+            json.save();
             break;
         case 2:
-            const pkg = new Pkg(constants.targetPath);
-
-            pkg.updateScript("lint:javascript", "eslint ./**/*.js");
-
-            pkg.save();
+            new Pkg(constants.targetPath)
+                .updateScript("lint:javascript", "eslint ./**/*.js")
+                .save();
             break;
     }
 };

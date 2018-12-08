@@ -1,6 +1,8 @@
 import * as path from "path";
 import constants = require("../constants");
 import * as json from "../utils/json";
+import { Json } from "../utils/json";
+import { ILintstagedrc } from "../utils/json.d";
 import { Pkg } from "../utils/pkg";
 
 export const UPDATE_LIST = [
@@ -24,28 +26,31 @@ export const update = (filePoint: string) => {
                 .save();
             return;
         case 2:
-            const data = json.read(filePath);
-            for (const key of Object.keys(data.linters)) {
-                const commands = data.linters[key];
-                const pCommands = commands.filter((item) => {
-                    return /^prettier\b/.test(item);
-                });
-                const lCommands = commands.filter((item) => {
-                    return /^npm run lint\b/.test(item);
-                });
-                if (pCommands.length === 0 || lCommands.length === 0) {
-                    continue;
-                }
-                for (const command of pCommands) {
-                    const pIndex = commands.indexOf(command);
-                    const lIndex = commands.indexOf(lCommands[0]);
-                    if (pIndex > lIndex) {
-                        data.linters[key].splice(pIndex, 1);
-                        data.linters[key].splice(lIndex, 0, command);
+            new Json<ILintstagedrc>(filePath)
+                .modify((data) => {
+                    for (const key of Object.keys(data.linters)) {
+                        const commands = data.linters[key];
+                        const pCommands = commands.filter((item) => {
+                            return /^prettier\b/.test(item);
+                        });
+                        const lCommands = commands.filter((item) => {
+                            return /^npm run lint\b/.test(item);
+                        });
+                        if (pCommands.length === 0 || lCommands.length === 0) {
+                            continue;
+                        }
+                        for (const command of pCommands) {
+                            const pIndex = commands.indexOf(command);
+                            const lIndex = commands.indexOf(lCommands[0]);
+                            if (pIndex > lIndex) {
+                                data.linters[key].splice(pIndex, 1);
+                                data.linters[key].splice(lIndex, 0, command);
+                            }
+                        }
                     }
-                }
-            }
-            json.write(filePath, data);
+                    return data;
+                })
+                .save();
             break;
         case 3:
             new json.Json(filePath)

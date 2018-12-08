@@ -1,6 +1,7 @@
 import test from "ava";
 import * as path from "path";
 import Config = require("y-config");
+import { Pkg } from "../../lib/utils/pkg";
 import { getPkg } from "../utils";
 import { patchBeforeMacro } from "./common";
 
@@ -27,6 +28,6 @@ test(".travis File Diff Check", (t) => {
 });
 
 test("package.json File Diff Check", (t) => {
-    const obj = getPkg(p);
+    const obj = new Pkg(p).toObject();
     t.truthy(obj.yVersion);
 });

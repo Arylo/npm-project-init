@@ -1,41 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as json from "./json";
+import { Json } from "./json";
+import { IPackage } from "./json.d";
 
-interface IPkgObj {
-    name: string;
-    version: string;
-    description: string;
-    main: string;
-    author: string;
-    homepage?: string;
-    yVersion: string;
-    license: string;
-    keywords: string[];
-    files: string[];
-    scripts?: {
-        [name: string]: string;
-    };
-    dependencies?: {
-        [name: string]: string;
-    };
-    devDependencies?: {
-        [name: string]: string;
-    };
-    [key: string]: any;
-}
-
-export const read = (p: fs.PathLike): IPkgObj => {
-    const filePath = path.resolve(p.toString(), "package.json");
-    return json.read(filePath);
-};
-
-export const write = (p: fs.PathLike, data: object) => {
-    const filePath = path.resolve(p.toString(), "package.json");
-    return json.write(filePath, data);
-};
-
-export class Pkg extends json.Json<IPkgObj> {
+export class Pkg extends Json<IPackage> {
     constructor(p: fs.PathLike) {
         super(path.resolve(p.toString(), "package.json"));
     }
@@ -50,7 +18,13 @@ export class Pkg extends json.Json<IPkgObj> {
     }
 
     public deleteSaveDependency(name: string) {
-        delete this.object.dependencies[name];
+        return this.deleteSaveDependencies(name);
+    }
+
+    public deleteSaveDependencies(...names: string[]) {
+        names.forEach((name) => {
+            delete this.object.dependencies[name];
+        });
         return this;
     }
 
@@ -64,7 +38,13 @@ export class Pkg extends json.Json<IPkgObj> {
     }
 
     public deleteDevDependency(name: string) {
-        delete this.object.devDependencies[name];
+        return this.deleteDevDependencies(name);
+    }
+
+    public deleteDevDependencies(...names: string[]) {
+        names.forEach((name) => {
+            delete this.object.devDependencies[name];
+        });
         return this;
     }
 
@@ -82,7 +62,13 @@ export class Pkg extends json.Json<IPkgObj> {
     }
 
     public deleteScript(action: string) {
-        delete this.object.scripts[action];
+        return this.deleteScript(action);
+    }
+
+    public deleteScripts(...actions: string[]) {
+        actions.forEach((action) => {
+            delete this.object.scripts[action];
+        });
         return this;
     }
 }

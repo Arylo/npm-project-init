@@ -6,7 +6,7 @@ import constants = require("../constants");
 import data = require("../data");
 import { dealPath, exit } from "../utils";
 import * as out from "./../utils/out";
-import * as pkg from "./../utils/pkg";
+import { Pkg } from "./../utils/pkg";
 
 import { diffVersions, getVersion } from "../patches";
 
@@ -69,6 +69,7 @@ export const handler = () => {
         }
     });
 
+    // Update Files
     for (const filePoint of Object.keys(ADD_MAP)) {
         add(filePoint);
     }
@@ -89,11 +90,14 @@ export const handler = () => {
         remove(filePoint);
     }
 
-    const json = pkg.read(constants.targetPath);
+    // Update `package.json`
+    new Pkg(constants.targetPath)
+        .modify((obj) => {
+            obj.yVersion = constants.version;
+            return obj;
+        })
+        .save();
 
-    json.yVersion = constants.version;
-
-    pkg.write(constants.targetPath, json);
     out.pipe(
         "\n    ::",
         `v${sourceProjectVersion} => v${constants.version} Updated`

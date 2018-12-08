@@ -2,7 +2,7 @@ import test from "ava";
 import * as path from "path";
 import Config = require("y-config");
 import { getVersion } from "../../lib/patches";
-import * as pkg from "../../lib/utils/pkg";
+import { Pkg } from "../../lib/utils/pkg";
 import { addMacro, patchBeforeMacro } from "./common";
 
 const config = new Config<{ cwd: string }>();
@@ -16,7 +16,7 @@ test.before(async (t) => {
 });
 
 test("Check `package.json`", (t) => {
-    const data = pkg.read(TEST_PATH);
+    const data = new Pkg(TEST_PATH).toObject();
 
     t.is("^1.1.2", data.devDependencies.husky);
     t.is("^7.3.0", data.devDependencies["lint-staged"]);
