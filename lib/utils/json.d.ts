@@ -1,6 +1,4 @@
-export interface IAnyObj {
-    [key: string]: any;
-}
+import { IAnyObj } from "./config.d";
 
 export interface IPackage extends IAnyObj {
     name: string;

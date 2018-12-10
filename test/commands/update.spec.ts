@@ -3,6 +3,8 @@ import * as fs from "fs";
 import * as glob from "glob";
 import { handler } from "../../lib";
 import { hisVersions } from "../../lib/patches/index";
+import { Json } from "../../lib/utils/json";
+import { Yaml } from "../../lib/utils/yaml";
 import { FILE_OPTIONS } from "../common";
 import { patchBeforeMacro } from "../patches/common";
 
@@ -48,18 +50,24 @@ for (let i = 0; i < versions.length; i++) {
         t.deepEqual(getFiles(sourcePath), getFiles(targetPath));
 
         for (const name of getFiles(sourcePath)) {
-            const sourceData = fs
-                .readFileSync(`${sourcePath}/${name}`, FILE_OPTIONS)
-                .trim();
-            const targetData = fs
-                .readFileSync(`${targetPath}/${name}`, FILE_OPTIONS)
-                .trim();
+            const sourceFilePath = `${sourcePath}/${name}`;
+            const targetFilePath = `${targetPath}/${name}`;
 
             if (/\.json$/.test(name) || /\.lintstagedrc$/.test(name)) {
-                const sourceObject = JSON.parse(sourceData);
-                const targetObject = JSON.parse(targetData);
+                const sourceObject = new Json(sourceFilePath).toObject();
+                const targetObject = new Json(targetFilePath).toObject();
+                t.deepEqual(sourceObject, targetObject, `File ${name}`);
+            } else if (/\.ya?ml$/.test(name)) {
+                const sourceObject = new Yaml(sourceFilePath).toObject();
+                const targetObject = new Yaml(targetFilePath).toObject();
                 t.deepEqual(sourceObject, targetObject, `File ${name}`);
             } else {
+                const sourceData = fs
+                    .readFileSync(sourceFilePath, FILE_OPTIONS)
+                    .trim();
+                const targetData = fs
+                    .readFileSync(targetFilePath, FILE_OPTIONS)
+                    .trim();
                 t.is(sourceData.length, targetData.length, `File ${name}`);
                 t.is(sourceData, targetData, `File ${name}`);
             }
