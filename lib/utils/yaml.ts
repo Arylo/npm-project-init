@@ -1,5 +1,6 @@
 import * as fs from "fs";
-import YAML = require("yaml");
+// import YAML = require("yaml");
+import YAML = require("js-yaml");
 import { FILE_OPTIONS } from "../constants";
 import { IAdapter } from "./adapter.d";
 import { Conf } from "./config";
@@ -11,13 +12,13 @@ const adapter: IAdapter = {
             return null;
         }
         try {
-            return YAML.parse(fs.readFileSync(filePath, FILE_OPTIONS));
+            return YAML.safeLoad(fs.readFileSync(filePath, FILE_OPTIONS));
         } catch (error) {
             return null;
         }
     },
     write: (p, data) => {
-        fs.writeFileSync(p, YAML.stringify(data), FILE_OPTIONS);
+        fs.writeFileSync(p, YAML.safeDump(data), FILE_OPTIONS);
     }
 };
 

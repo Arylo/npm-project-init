@@ -18,7 +18,9 @@ test.before(async () => {
 
 const commands = [
     "npm install --no-package-lock",
-    "npm run lint",
+    // Because the eslint match no files
+    // "npm run lint",
+    "npm run lint:typescript",
     "npm run build",
     "npm run clean",
     "npm run build:prod",
