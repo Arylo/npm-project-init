@@ -1,6 +1,6 @@
+import ftconfig = require("ftconfig");
 import { resolve } from "path";
 import constants = require("../constants");
-import { Json } from "../utils/json";
 
 export const UPDATE_LIST = ["package.json", "tsconfig.json"];
 
@@ -11,7 +11,8 @@ export const update = (filePoint: string) => {
 
     const filePath = resolve(constants.targetPath, filePoint);
 
-    new Json(filePath)
+    ftconfig
+        .readFile(filePath)
         .modify((data) => {
             switch (UPDATE_LIST.indexOf(filePoint) + 1) {
                 case 1:

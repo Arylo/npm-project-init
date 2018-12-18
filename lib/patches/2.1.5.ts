@@ -1,7 +1,6 @@
+import ftconfig = require("ftconfig");
 import * as path from "path";
 import constants = require("../constants");
-import * as json from "../utils/json";
-import { Json } from "../utils/json";
 import { ILintstagedrc } from "../utils/json.d";
 import { Pkg } from "../utils/pkg";
 
@@ -26,7 +25,8 @@ export const update = (filePoint: string) => {
                 .save();
             return;
         case 2:
-            new Json<ILintstagedrc>(filePath)
+            ftconfig
+                .readFile<ILintstagedrc>(filePath, { type: "json" })
                 .modify((data) => {
                     for (const key of Object.keys(data.linters)) {
                         const commands = data.linters[key];
@@ -53,7 +53,8 @@ export const update = (filePoint: string) => {
                 .save();
             break;
         case 3:
-            new json.Json(filePath)
+            ftconfig
+                .readFile(filePath)
                 .modify((obj) => {
                     obj.include.push("test/**/*");
                     return obj;
@@ -61,7 +62,8 @@ export const update = (filePoint: string) => {
                 .save();
             break;
         case 4:
-            new json.Json(filePath)
+            ftconfig
+                .readFile(filePath)
                 .modify((obj) => {
                     obj.compilerOptions.declarationMap = false;
                     if (!obj.exclude) {
@@ -73,7 +75,8 @@ export const update = (filePoint: string) => {
                 .save();
             break;
         case 5:
-            new json.Json(filePath)
+            ftconfig
+                .readFile(filePath)
                 .modify((obj) => {
                     delete obj.include;
                     return obj;

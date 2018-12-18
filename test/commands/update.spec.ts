@@ -1,10 +1,9 @@
 import test from "ava";
 import * as fs from "fs";
+import ftconfig = require("ftconfig");
 import * as glob from "glob";
 import { handler } from "../../lib";
 import { hisVersions } from "../../lib/patches/index";
-import { Json } from "../../lib/utils/json";
-import { Yaml } from "../../lib/utils/yaml";
 import { FILE_OPTIONS } from "../common";
 import { patchBeforeMacro } from "../patches/common";
 
@@ -54,12 +53,20 @@ for (let i = 0; i < versions.length; i++) {
             const targetFilePath = `${targetPath}/${name}`;
 
             if (/\.json$/.test(name) || /\.lintstagedrc$/.test(name)) {
-                const sourceObject = new Json(sourceFilePath).toObject();
-                const targetObject = new Json(targetFilePath).toObject();
+                const sourceObject = ftconfig
+                    .readFile(sourceFilePath, { type: "json" })
+                    .toObject();
+                const targetObject = ftconfig
+                    .readFile(targetFilePath, { type: "json" })
+                    .toObject();
                 t.deepEqual(sourceObject, targetObject, `File ${name}`);
             } else if (/\.ya?ml$/.test(name)) {
-                const sourceObject = new Yaml(sourceFilePath).toObject();
-                const targetObject = new Yaml(targetFilePath).toObject();
+                const sourceObject = ftconfig
+                    .readFile(sourceFilePath)
+                    .toObject();
+                const targetObject = ftconfig
+                    .readFile(targetFilePath)
+                    .toObject();
                 t.deepEqual(sourceObject, targetObject, `File ${name}`);
             } else {
                 const sourceData = fs

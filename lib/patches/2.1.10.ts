@@ -1,6 +1,6 @@
+import ftconfig = require("ftconfig");
 import * as path from "path";
 import constants = require("../constants");
-import { Json } from "../utils/json";
 import { Pkg } from "../utils/pkg";
 
 export const UPDATE_LIST = [".huskyrc.json", "package.json"];
@@ -10,7 +10,8 @@ export const update = (filePoint: string) => {
 
     switch (UPDATE_LIST.indexOf(filePoint) + 1) {
         case 1:
-            new Json(filePath)
+            ftconfig
+                .readFile(filePath)
                 .modify((data) => {
                     data.hooks["commit-msg"] =
                         "commitlint -e .git/COMMIT_EDITMSG";

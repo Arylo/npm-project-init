@@ -1,8 +1,8 @@
+import ftconfig = require("ftconfig");
 import * as path from "path";
 import constants = require("../constants");
 import { ILintstagedrc } from "../utils/json.d";
 import { Pkg } from "../utils/pkg";
-import { Json } from "./../utils/json";
 
 export const ADD_LIST = [".eslintignore"];
 
@@ -13,7 +13,9 @@ export const update = (filePoint: string) => {
 
     switch (UPDATE_LIST.indexOf(filePoint) + 1) {
         case 1:
-            const json = new Json<ILintstagedrc>(filePath);
+            const json = ftconfig.readFile<ILintstagedrc>(filePath, {
+                type: "json"
+            });
 
             for (const key of Object.keys(json.toObject().linters)) {
                 if (/\.editorconfig$/.test(key)) {

@@ -1,6 +1,6 @@
 {
   "name": "arylo-init",
-  "version": "2.1.13",
+  "version": "2.1.14",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {
@@ -54,6 +54,7 @@
   "homepage": "https://github.com/Arylo/npm-project-init#readme",
   "dependencies": {
     "chalk": "^2.4.1",
+    "ftconfig": "^1.1.0",
     "js-yaml": "^3.12.0",
     "make-dir": "^1.3.0",
     "rimraf": "^2.6.2",
