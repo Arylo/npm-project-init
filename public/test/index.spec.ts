@@ -1,5 +1,5 @@
 import test from "ava";
 
-test((t) => {
+test("Default test", (t) => {
     t.not(true, false);
 });

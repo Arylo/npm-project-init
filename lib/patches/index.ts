@@ -29,13 +29,10 @@ export const diffVersions = (ver: string) => {
     }
     const curVersion = parseVersion(ver);
     return hisVersions
-        .reduce(
-            (arr, v) => {
-                arr.push(parseVersion(v));
-                return arr;
-            },
-            [] as IVersion[]
-        )
+        .reduce<IVersion[]>((arr, v) => {
+            arr.push(parseVersion(v));
+            return arr;
+        }, [])
         .sort((a, b) => {
             for (const level of ["major", "minor", "patch"]) {
                 if (a[level] === b[level]) {
