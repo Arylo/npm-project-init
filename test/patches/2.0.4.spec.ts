@@ -2,7 +2,6 @@ import test from "ava";
 import * as path from "path";
 import Config = require("y-config");
 import { Pkg } from "../../lib/utils/pkg";
-import { getPkg } from "../utils";
 import { patchBeforeMacro } from "./common";
 
 let p: string;

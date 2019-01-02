@@ -1,6 +1,6 @@
-import { IAnyObj } from "./config.d";
+import { IObj } from "./config.d";
 
-export interface IPackage extends IAnyObj {
+export interface IPackage extends IObj {
     name: string;
     version: string;
     description: string;
@@ -11,28 +11,16 @@ export interface IPackage extends IAnyObj {
     license: string;
     keywords: string[];
     files: string[];
-    scripts?: {
-        [name: string]: string;
-    };
-    dependencies?: {
-        [name: string]: string;
-    };
-    devDependencies?: {
-        [name: string]: string;
-    };
+    scripts?: IObj<string>;
+    dependencies?: IObj<string>;
+    devDependencies?: IObj<string>;
 }
 
-export interface ILintstagedrc extends IAnyObj {
-    linters: {
-        [key: string]: string[];
-    };
-    globOptions: {
-        [key: string]: any;
-    };
+export interface ILintstagedrc extends IObj {
+    linters: IObj<string[]>;
+    globOptions: IObj;
 }
 
-export interface IHuskyrc extends IAnyObj {
-    hooks: {
-        [key: string]: string;
-    };
+export interface IHuskyrc extends IObj {
+    hooks: IObj<string>;
 }

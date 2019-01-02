@@ -1,4 +1,5 @@
 import * as path from "path";
+import { IObj } from "./utils/config";
 
 export const exit = (msg: string | string[], code = 1) => {
     if (Array.isArray(msg)) {
@@ -36,9 +37,10 @@ export const dealPath = (pathname: string) => {
     return p;
 };
 
-export const getCommand = (name: string): {
+export const getCommand = (
+    name: string
+): {
     handler(): boolean;
-    [key: string]: any;
-} => {
+} & IObj => {
     return require(`./commands/${name}`);
 };

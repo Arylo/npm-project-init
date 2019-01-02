@@ -11,6 +11,7 @@ interface IVersionObject {
     ADD_LIST?: string[];
     UPDATE_LIST?: string[];
     REMOVE_LIST?: string[];
+    IGNORE_CHECK_LIST?: string[];
     update?: (filePoint: string) => any;
 }
 

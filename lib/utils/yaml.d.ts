@@ -1,6 +1,6 @@
-import { IAnyObj } from "./config.d";
+import { IObj } from "./config.d";
 
-export interface ITravis extends IAnyObj {
+export interface ITravis extends IObj {
     language?: string;
     os?: string[];
     node_js?: string[];
@@ -18,6 +18,6 @@ export interface ITravis extends IAnyObj {
             branch?: string;
             node_js?: string;
         };
-    };
+    } & IObj;
     after_deploy?: string[];
 }

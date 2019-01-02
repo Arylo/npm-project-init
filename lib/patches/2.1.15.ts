@@ -3,6 +3,8 @@ import * as path from "path";
 import constants = require("../constants");
 import { Pkg } from "../utils/pkg";
 
+export const IGNORE_CHECK_LIST = ["test/index.spec.ts"];
+
 export const UPDATE_LIST = ["package.json", "test/index.spec.ts"];
 
 export const update = (filePoint: string) => {

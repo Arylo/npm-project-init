@@ -9,6 +9,7 @@ import * as out from "./../utils/out";
 import { Pkg } from "./../utils/pkg";
 
 import { diffVersions, getVersion } from "../patches";
+import { IObj } from "../utils/config";
 
 export const handler = () => {
     const folderPath = dealPath(process.argv[3]);
@@ -28,9 +29,9 @@ export const handler = () => {
     if (!sourceProjectVersion) {
         exit("Miss yVersion Param in `package.json`");
     }
-    const ADD_MAP = {};
-    const UPDATE_MAP = {};
-    const REMOVE_MAP = {};
+    const ADD_MAP: IObj<string[]> = {};
+    const UPDATE_MAP: IObj<string[]> = {};
+    const REMOVE_MAP: IObj<string[]> = {};
 
     const versions = diffVersions(sourceProjectVersion);
 
@@ -75,11 +76,19 @@ export const handler = () => {
     }
     for (const filePoint of Object.keys(UPDATE_MAP)) {
         const versionList = UPDATE_MAP[filePoint];
-        if (!fs.existsSync(path.resolve(constants.targetPath, filePoint))) {
-            exit(`Miss \`${filePoint}\``);
-        }
         for (const version of versionList) {
-            getVersion(version).update(filePoint.replace(/^\.\//, ""));
+            const versionObj = getVersion(version);
+            if (!fs.existsSync(path.resolve(constants.targetPath, filePoint))) {
+                if (
+                    versionObj.IGNORE_CHECK_LIST.indexOf(
+                        filePoint.replace(/^\.\//, "")
+                    ) === -1
+                ) {
+                    exit(`Miss \`${filePoint}\``);
+                }
+                continue;
+            }
+            versionObj.update(filePoint.replace(/^\.\//, ""));
         }
         out.pipe(
             "UPDATE",

@@ -1,3 +1,3 @@
-export interface IAnyObj {
-    [key: string]: any;
+export interface IObj<T = any> {
+    [key: string]: T;
 }
