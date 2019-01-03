@@ -1,49 +1,38 @@
-import test from "ava";
 import * as fs from "fs";
 import ftconfig = require("ftconfig");
 import * as glob from "glob";
 import { handler } from "../../lib";
 import { getHistoryVersions } from "../../lib/utils/versions";
+import test from "../ava";
 import { FILE_OPTIONS } from "../common";
-import { patchBeforeMacro } from "../patches/common";
+import { getFileFunctionMacro, patchesBeforeMacro } from "../utils/macroes";
 
-let projectPaths: string[];
 const versions = ["2.0.4"].concat(getHistoryVersions());
 
-const filesMap = {
-    allFiles: {},
-    files: {}
-};
+test.serial.before(patchesBeforeMacro, versions);
 
-const getAllFiles = (p: fs.PathLike): string[] => {
-    filesMap.allFiles[p.toString()] = glob.sync("./!(.git){,/**}", {
-        cwd: projectPaths[0],
-        dot: true
-    });
-    return filesMap.allFiles[p.toString()];
-};
-const getFiles = (p: fs.PathLike): string[] => {
-    filesMap.files[p.toString()] = getAllFiles(p).filter((name) =>
-        fs.statSync(`${p}/${name}`).isFile()
-    );
-    return filesMap.files[p.toString()];
-};
-
-test.before(async (t) => {
-    projectPaths = await patchBeforeMacro(t, versions);
-    for (const projectPath of projectPaths) {
-        process.argv = [process.argv0, ".", "update", projectPath];
-        handler();
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-    }
-});
+test.before(getFileFunctionMacro);
 
 for (let i = 0; i < versions.length; i++) {
     const version = versions[i];
 
-    test(`Command \`update\` ${version} => latest`, (t) => {
-        const sourcePath = projectPaths[0];
-        const targetPath = projectPaths[i + 1];
+    test.serial(`Command \`update\` ${version} => latest`, async (t) => {
+        process.argv = [
+            process.argv0,
+            ".",
+            "update",
+            t.context.projectPaths[i + 1]
+        ];
+        handler();
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+    });
+
+    test.serial(`Command \`update\` ${version} => latest Check`, (t) => {
+        const getAllFiles = t.context.getAllFiles;
+        const getFiles = t.context.getFiles;
+
+        const sourcePath = t.context.projectPaths[0];
+        const targetPath = t.context.projectPaths[i + 1];
 
         t.deepEqual(getAllFiles(sourcePath), getAllFiles(targetPath));
         t.deepEqual(getFiles(sourcePath), getFiles(targetPath));
@@ -52,7 +41,7 @@ for (let i = 0; i < versions.length; i++) {
             const sourceFilePath = `${sourcePath}/${name}`;
             const targetFilePath = `${targetPath}/${name}`;
 
-            if (/\.json$/.test(name) || /\.lintstagedrc$/.test(name)) {
+            if (/\.lintstagedrc$/.test(name)) {
                 const sourceObject = ftconfig
                     .readFile(sourceFilePath, { type: "json" })
                     .toObject();
@@ -60,7 +49,7 @@ for (let i = 0; i < versions.length; i++) {
                     .readFile(targetFilePath, { type: "json" })
                     .toObject();
                 t.deepEqual(sourceObject, targetObject, `File ${name}`);
-            } else if (/\.ya?ml$/.test(name)) {
+            } else if (/\.(ya?ml|json)$/.test(name)) {
                 const sourceObject = ftconfig
                     .readFile(sourceFilePath)
                     .toObject();
