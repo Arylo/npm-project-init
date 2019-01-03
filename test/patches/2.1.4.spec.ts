@@ -1,8 +1,8 @@
 import test from "ava";
 import * as path from "path";
 import Config = require("y-config");
-import { getVersion } from "../../lib/patches";
 import { Pkg } from "../../lib/utils/pkg";
+import { getVersionObj } from "../../lib/utils/versions";
 import { addMacro, patchBeforeMacro } from "./common";
 
 const config = new Config<{ cwd: string }>();
@@ -24,4 +24,4 @@ test("Check `package.json`", (t) => {
     t.not(-1, data.keywords.indexOf("typescript"));
 });
 
-addMacro(getVersion(VERSION).ADD_LIST, config);
+addMacro(getVersionObj(VERSION).ADD_LIST, config);

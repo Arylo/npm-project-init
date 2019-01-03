@@ -1,7 +1,7 @@
 import ftconfig = require("ftconfig");
 import * as path from "path";
 import constants = require("../constants");
-import { ILintstagedrc } from "../utils/json.d";
+import { ILintstagedrc } from "../types/json";
 import { Pkg } from "../utils/pkg";
 
 export const UPDATE_LIST = [

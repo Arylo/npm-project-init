@@ -1,5 +1,5 @@
 import ava, { TestInterface } from "ava";
-import { IObj } from "../lib/utils/config";
+import { IObj } from "../lib/types/config";
 
 const test: TestInterface<
     {

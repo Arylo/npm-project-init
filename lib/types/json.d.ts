@@ -1,4 +1,4 @@
-import { IObj } from "./config.d";
+import { IObj } from "./config";
 
 export interface IPackage extends IObj {
     name: string;

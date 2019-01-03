@@ -3,12 +3,12 @@ import * as fs from "fs";
 import ftconfig = require("ftconfig");
 import * as glob from "glob";
 import { handler } from "../../lib";
-import { hisVersions } from "../../lib/patches/index";
+import { getHistoryVersions } from "../../lib/utils/versions";
 import { FILE_OPTIONS } from "../common";
 import { patchBeforeMacro } from "../patches/common";
 
 let projectPaths: string[];
-const versions = ["2.0.4"].concat(hisVersions);
+const versions = ["2.0.4"].concat(getHistoryVersions());
 
 const filesMap = {
     allFiles: {},

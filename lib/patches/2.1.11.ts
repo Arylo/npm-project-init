@@ -1,7 +1,7 @@
 import ftconfig = require("ftconfig");
 import * as path from "path";
 import constants = require("../constants");
-import { ITravis } from "../utils/yaml.d";
+import { ITravis } from "../types/yaml";
 
 export const UPDATE_LIST = [".travis.yml"];
 

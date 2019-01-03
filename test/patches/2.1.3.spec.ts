@@ -1,7 +1,7 @@
 import test from "ava";
 import ftconfig = require("ftconfig");
 import * as path from "path";
-import { IPackage } from "../../lib/utils/json.d";
+import { IPackage } from "../../lib/types/json";
 import { patchBeforeMacro } from "./common";
 
 let TEST_PATH: string;

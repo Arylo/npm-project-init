@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as ftconfig from "ftconfig";
 import { WriteConfig } from "ftconfig/lib/WriteConfig";
 import * as path from "path";
-import { IPackage } from "./json.d";
+import { IPackage } from "../types/json";
 
 export class Pkg {
     private config: WriteConfig<IPackage>;

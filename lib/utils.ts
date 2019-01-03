@@ -1,5 +1,5 @@
 import * as path from "path";
-import { IObj } from "./utils/config";
+import { IObj } from "./types/config";
 
 export const exit = (msg: string | string[], code = 1) => {
     if (Array.isArray(msg)) {
@@ -12,7 +12,7 @@ export const exit = (msg: string | string[], code = 1) => {
     process.exit(1);
 };
 
-export const nameFilter = (name: string) => {
+export const namePipe = (name: string) => {
     return name
         .toLowerCase()
         .replace(/^[^a-z]*/i, "")

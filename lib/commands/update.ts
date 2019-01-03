@@ -4,12 +4,11 @@ import path = require("path");
 import * as rimraf from "rimraf";
 import constants = require("../constants");
 import data = require("../data");
+import { IObj } from "../types/config";
 import { dealPath, exit } from "../utils";
-import * as out from "./../utils/out";
-import { Pkg } from "./../utils/pkg";
-
-import { diffVersions, getVersion } from "../patches";
-import { IObj } from "../utils/config";
+import * as out from "../utils/out";
+import { Pkg } from "../utils/pkg";
+import { diffVersions, getVersionObj } from "../utils/versions";
 
 export const handler = () => {
     const folderPath = dealPath(process.argv[3]);
@@ -43,7 +42,7 @@ export const handler = () => {
     }
 
     versions.forEach((version) => {
-        const versionObj = getVersion(version);
+        const versionObj = getVersionObj(version);
         for (const filePoint of toUniList(versionObj.ADD_LIST)) {
             if (REMOVE_MAP[filePoint]) {
                 REMOVE_MAP[filePoint] = null;
@@ -77,13 +76,9 @@ export const handler = () => {
     for (const filePoint of Object.keys(UPDATE_MAP)) {
         const versionList = UPDATE_MAP[filePoint];
         for (const version of versionList) {
-            const versionObj = getVersion(version);
+            const versionObj = getVersionObj(version);
             if (!fs.existsSync(path.resolve(constants.targetPath, filePoint))) {
-                if (
-                    versionObj.IGNORE_CHECK_LIST.indexOf(
-                        filePoint.replace(/^\.\//, "")
-                    ) === -1
-                ) {
+                if (!versionObj.isIgnoreCheck(filePoint)) {
                     exit(`Miss \`${filePoint}\``);
                 }
                 continue;
