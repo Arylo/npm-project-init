@@ -23,7 +23,7 @@ for (let i = 0; i < versions.length; i++) {
             "update",
             t.context.projectPaths[i + 1]
         ];
-        handler();
+        t.true(handler());
         await new Promise((resolve) => setTimeout(resolve, 1000));
     });
 
