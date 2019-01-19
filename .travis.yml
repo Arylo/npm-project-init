@@ -15,22 +15,6 @@ before_script:
   - "npm install nyc --global"
   - "npx -h || npm install npx --global"
 
-script:
-  # Lint Code
-  - "npm run lint"
-  - "nyc npm run test"
-  # Build Module
-  - "npm run clean && npm run build:prod && npm run resource"
-  # Test Module
-  - "rm -rf node_modules"
-  - "npm install --production"
-  - "node . -h"
-  - "node . new .script_test"
-
-after_success:
-  - "npm install coveralls@~3.0.0 --global"
-  - "nyc report --reporter=text-lcov | coveralls"
-
 before_deploy:
   - "rm -rf node_modules"
   - "npm install"
@@ -38,17 +22,43 @@ before_deploy:
   - "npm run build:prod"
   - "npm run resource"
 
-deploy:
-  skip_cleanup: true
-  provider: npm
-  email: "arylo.open+npm@gmail.com"
-  api_key: "${NPM_TOKEN}"
-  on:
-    branch: master
-    node_js: "lts/*"
-
-after_deploy:
-  - "npx arylo-init new .deploy_test"
-  - "npm run test .deploy_test"
-  - "npm install -g arylo-init"
-  - "arylo-init -h"
+jobs:
+  include:
+    - stage: lint
+      node_js: "lts/*"
+      os: linux
+      script:
+        - "npm run lint"
+    - stage: test
+      script:
+        - "npm install"
+        - "nyc npm run test"
+      after_success:
+        - "npm install coveralls@~3.0.0 --global"
+        - "nyc report --reporter=text-lcov | coveralls"
+    - stage: test-prod
+      node_js: "lts/*"
+      os: linux
+      script:
+        - "rm -rf node_modules"
+        - "npm install --production"
+        - "npm run clean && npm run build:prod && npm run resource"
+        - "node . -h"
+        - "node . new .script_test"
+    - stage: deploy
+      script: skip
+      node_js: "lts/*"
+      os: linux
+      deploy:
+        skip_cleanup: true
+        provider: npm
+        email: "arylo.open+npm@gmail.com"
+        api_key: "${NPM_TOKEN}"
+        on:
+          branch: master
+    - stage: new module test
+      script:
+        - "npx arylo-init new .deploy_test"
+        - "npm run test .deploy_test"
+        - "npm install -g arylo-init"
+        - "arylo-init -h"
