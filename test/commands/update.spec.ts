@@ -1,6 +1,5 @@
 import * as fs from "fs";
 import ftconfig = require("ftconfig");
-import * as glob from "glob";
 import { handler } from "../../lib";
 import { getHistoryVersions } from "../../lib/utils/versions";
 import test from "../ava";

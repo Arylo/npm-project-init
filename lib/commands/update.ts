@@ -8,7 +8,7 @@ import { IObj } from "../types/config";
 import { dealPath, exit } from "../utils";
 import * as out from "../utils/out";
 import { Pkg } from "../utils/pkg";
-import { diffVersions, getVersionObj } from "../utils/versions";
+import { diffVersions, getVersionObj, sortFn } from "../utils/versions";
 
 export const handler = () => {
     const folderPath = dealPath(process.argv[3]);
@@ -28,9 +28,11 @@ export const handler = () => {
     if (!sourceProjectVersion) {
         exit("Miss yVersion Param in `package.json`");
     }
-    const ADD_MAP: IObj<string[]> = {};
-    const UPDATE_MAP: IObj<string[]> = {};
-    const REMOVE_MAP: IObj<string[]> = {};
+    const MAPS: { [type: string]: IObj<string[]> } = {
+        add: {},
+        remove: {},
+        update: {}
+    };
 
     const versions = diffVersions(sourceProjectVersion);
 
@@ -44,54 +46,82 @@ export const handler = () => {
     versions.forEach((version) => {
         const versionObj = getVersionObj(version);
         for (const filePoint of toUniList(versionObj.ADD_LIST)) {
-            if (REMOVE_MAP[filePoint]) {
-                REMOVE_MAP[filePoint] = null;
+            if (MAPS.remove[filePoint]) {
+                MAPS.remove[filePoint] = null;
             }
-            ADD_MAP[filePoint] = [version];
+            MAPS.add[filePoint] = [version];
         }
         for (const filePoint of toUniList(versionObj.UPDATE_LIST)) {
-            if (ADD_MAP[filePoint]) {
+            if (MAPS.add[filePoint]) {
                 continue;
             }
-            if (!UPDATE_MAP[filePoint]) {
-                UPDATE_MAP[filePoint] = [];
+            if (!MAPS.update[filePoint]) {
+                MAPS.update[filePoint] = [];
             }
-            UPDATE_MAP[filePoint].push(version);
+            MAPS.update[filePoint].push(version);
         }
         for (const filePoint of toUniList(versionObj.REMOVE_LIST)) {
-            if (ADD_MAP[filePoint]) {
-                UPDATE_MAP[filePoint] = null;
+            if (MAPS.add[filePoint]) {
+                MAPS.update[filePoint] = null;
             }
-            if (UPDATE_MAP[filePoint]) {
-                UPDATE_MAP[filePoint] = null;
+            if (MAPS.update[filePoint]) {
+                MAPS.update[filePoint] = null;
             }
-            REMOVE_MAP[filePoint] = [version];
+            MAPS.remove[filePoint] = [version];
         }
     });
 
-    // Update Files
-    for (const filePoint of Object.keys(ADD_MAP)) {
-        add(filePoint);
-    }
-    for (const filePoint of Object.keys(UPDATE_MAP)) {
-        const versionList = UPDATE_MAP[filePoint];
-        for (const version of versionList) {
-            const versionObj = getVersionObj(version);
-            if (!fs.existsSync(path.resolve(constants.targetPath, filePoint))) {
-                if (!versionObj.isIgnoreCheck(filePoint)) {
-                    exit(`Miss \`${filePoint}\``);
+    // Generate Update Queue
+    const updateQueue: {
+        [ver: string]: Array<{ filePoint: string; type: string }>;
+    } = {};
+    for (const t of Object.keys(MAPS)) {
+        const map = MAPS[t];
+        for (const filePoint of Object.keys(map)) {
+            const versionList = map[filePoint];
+            for (const version of versionList) {
+                if (!updateQueue[version]) {
+                    updateQueue[version] = [];
                 }
-                continue;
+                updateQueue[version].push({
+                    filePoint,
+                    type: t
+                });
             }
-            versionObj.update(filePoint.replace(/^\.\//, ""));
         }
-        out.pipe(
-            "UPDATE",
-            filePoint
-        );
     }
-    for (const filePoint of Object.keys(REMOVE_MAP)) {
-        remove(filePoint);
+
+    // Update Files
+    for (const ver of Object.keys(updateQueue).sort(sortFn())) {
+        for (const obj of updateQueue[ver]) {
+            const { filePoint } = obj;
+            switch (obj.type) {
+                case "add":
+                    add(filePoint);
+                    break;
+                case "update":
+                    const versionObj = getVersionObj(ver);
+                    if (
+                        !fs.existsSync(
+                            path.resolve(constants.targetPath, filePoint)
+                        )
+                    ) {
+                        if (!versionObj.isIgnoreCheck(filePoint)) {
+                            exit(`Miss \`${filePoint}\``);
+                        }
+                        continue;
+                    }
+                    versionObj.update(filePoint.replace(/^\.\//, ""));
+                    out.pipe(
+                        "UPDATE",
+                        filePoint
+                    );
+                    break;
+                case "remove":
+                    remove(filePoint);
+                    break;
+            }
+        }
     }
 
     // Update `package.json`

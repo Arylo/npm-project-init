@@ -41,7 +41,7 @@ export async function patchesBeforeMacro(t, vers: string | string[]) {
 
 patchesBeforeMacro.title = (providedTitle, vers) => {
     vers = Array.isArray(vers) ? vers : [vers];
-    return vers.join(" ");
+    return ["Get"].concat(vers).join(" ");
 };
 
 export function getFileFunctionMacro(t) {

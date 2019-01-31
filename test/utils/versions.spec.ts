@@ -39,6 +39,20 @@ test("Sort Function #1", (t) => {
     ]);
 });
 
+test("Sort Function #3", (t) => {
+    const list = t.context.versionList.sort(sortFn());
+
+    t.deepEqual(list, [
+        "0.0.0",
+        "1.0.0",
+        "2.0.1",
+        "3.1.10",
+        "3.10.9",
+        "3.10.11",
+        "10.30.6"
+    ]);
+});
+
 test("Sort Function #2", (t) => {
     const list = t.context.versionList
         .map(parseVersion)

@@ -84,12 +84,14 @@ export const diffVersions = (ver: string) => {
 };
 
 export const sortFn = (asc = true) => {
-    return (a: IVersion, b: IVersion) => {
+    return (a: IVersion | string, b: IVersion | string) => {
+        const aa = typeof a === "string" ? parseVersion(a) : a;
+        const bb = typeof b === "string" ? parseVersion(b) : b;
         for (const level of ["major", "minor", "patch"]) {
-            if (a[level] === b[level]) {
+            if (aa[level] === bb[level]) {
                 continue;
             }
-            return asc ? a[level] - b[level] : b[level] - a[level];
+            return asc ? aa[level] - bb[level] : bb[level] - aa[level];
         }
         return 0;
     };
