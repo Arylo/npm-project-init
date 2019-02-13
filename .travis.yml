@@ -40,9 +40,10 @@ jobs:
       node_js: "lts/*"
       os: linux
       script:
+        - "npm install"
+        - "npm run clean && npm run build:prod && npm run resource"
         - "rm -rf node_modules"
         - "npm install --production"
-        - "npm run clean && npm run build:prod && npm run resource"
         - "node . -h"
         - "node . new .script_test"
     - stage: deploy
@@ -56,9 +57,16 @@ jobs:
         api_key: "${NPM_TOKEN}"
         on:
           branch: master
-    - stage: new module test
+    - stage: new module test - 1
       script:
         - "npx arylo-init new .deploy_test"
         - "npm run test .deploy_test"
         - "npm install -g arylo-init"
         - "arylo-init -h"
+    - stage: new module test - 2
+      script:
+        - "npm install"
+        - "nyc npm run test"
+      after_success:
+        - "npm install coveralls@~3.0.0 --global"
+        - "nyc report --reporter=text-lcov | coveralls"
