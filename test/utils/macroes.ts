@@ -3,6 +3,7 @@ import fs = require("fs");
 import glob = require("glob");
 import path = require("path");
 import { handler } from "../../lib";
+import { sortFn } from "../../lib/utils/versions";
 import { TEST_TEMP_PATH } from "../common";
 import { curVersion, getRemoveVersion, remoteVersion } from "../patches/common";
 
@@ -10,6 +11,7 @@ const PROJECT_NAME = "aaa";
 
 export async function patchesBeforeMacro(t, vers: string | string[]) {
     vers = Array.isArray(vers) ? vers : [vers];
+    vers = vers.sort(sortFn());
     const tmpName =
         `t${Math.ceil(Math.random() * 10000)}-` +
         (vers.length < 5

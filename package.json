@@ -1,6 +1,6 @@
 {
   "name": "arylo-init",
-  "version": "2.1.17",
+  "version": "2.1.18",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {

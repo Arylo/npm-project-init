@@ -1,12 +1,12 @@
 import * as fs from "fs";
 import ftconfig = require("ftconfig");
 import { handler } from "../../lib";
-import { getHistoryVersions } from "../../lib/utils/versions";
+import { getHistoryVersions, sortFn } from "../../lib/utils/versions";
 import test from "../ava";
 import { FILE_OPTIONS } from "../common";
 import { getFileFunctionMacro, patchesBeforeMacro } from "../utils/macroes";
 
-const versions = ["2.0.4"].concat(getHistoryVersions());
+const versions = ["2.0.4"].concat(getHistoryVersions()).sort(sortFn());
 
 test.serial.before(patchesBeforeMacro, versions);
 

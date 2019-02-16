@@ -1,13 +1,16 @@
 language: node_js
 
+os:
+  - linux
+  - osx
+
 node_js:
   - "10"
-  - "6"
   - "8"
   - "lts/*"
-  - "node"
 
 before_script:
+  - "npm install"
   - "npm install nyc --global"
 
 script:
@@ -20,13 +23,29 @@ after_success:
 
 before_deploy:
   - "npm run clean"
-  - "npm run build -- -P ./tsconfig.prod.json"
+  - "npm run build:prod"
 
-deploy:
-  skip_cleanup: true
-  provider: npm
-  email: "arylo.open+npm@gmail.com"
-  api_key: "${NPM_TOKEN}"
-  on:
-    branch: master
-    node_js: "node"
+stages:
+  - lint
+  - test
+  - deploy
+
+jobs:
+  include:
+    - stage: lint
+      script:
+        - "npm run lint"
+      node_js: "lts/*"
+      os: linux
+    - stage: test
+    - stage: deploy
+      script: skip
+      node_js: "lts/*"
+      os: linux
+      deploy:
+        skip_cleanup: true
+        provider: npm
+        email: "arylo.open+npm@gmail.com"
+        api_key: "${NPM_TOKEN}"
+        on:
+          branch: master
