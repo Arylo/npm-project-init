@@ -45,8 +45,13 @@ jobs:
         - "npm install coveralls@~3.0.0 --global"
         - "nyc report --reporter=text-lcov | coveralls"
     - stage: test-prod
-      node_js: "lts/*"
-      os: linux
+      node_js:
+        - "lts/*"
+        - "10"
+        - "8"
+      os:
+        - linux
+        - osx
       script:
         - "npm install"
         - "npm run clean && npm run build:prod && npm run resource"
@@ -66,6 +71,13 @@ jobs:
         on:
           branch: master
     - stage: new module test
+      node_js:
+        - "lts/*"
+        - "10"
+        - "8"
+      os:
+        - linux
+        - osx
       script:
         - "npx arylo-init new .deploy_test"
         - "npm run test .deploy_test"
@@ -73,3 +85,10 @@ jobs:
         - "arylo-init -h"
     - <<: *test
       stage: new module test
+      node_js:
+        - "lts/*"
+        - "10"
+        - "8"
+      os:
+        - linux
+        - osx
