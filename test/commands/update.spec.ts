@@ -47,7 +47,11 @@ for (let i = 0; i < versions.length; i++) {
                 const targetObject = ftconfig
                     .readFile(targetFilePath, { type: "json" })
                     .toObject();
-                t.deepEqual(sourceObject, targetObject, `File ${name}`);
+                t.deepEqual(
+                    sourceObject,
+                    targetObject,
+                    `File ${targetFilePath}`
+                );
             } else if (/\.(ya?ml|json)$/.test(name)) {
                 const sourceObject = ftconfig
                     .readFile(sourceFilePath)
@@ -55,7 +59,11 @@ for (let i = 0; i < versions.length; i++) {
                 const targetObject = ftconfig
                     .readFile(targetFilePath)
                     .toObject();
-                t.deepEqual(sourceObject, targetObject, `File ${name}`);
+                t.deepEqual(
+                    sourceObject,
+                    targetObject,
+                    `File ${targetFilePath}`
+                );
             } else {
                 const sourceData = fs
                     .readFileSync(sourceFilePath, FILE_OPTIONS)
@@ -63,8 +71,12 @@ for (let i = 0; i < versions.length; i++) {
                 const targetData = fs
                     .readFileSync(targetFilePath, FILE_OPTIONS)
                     .trim();
-                t.is(sourceData.length, targetData.length, `File ${name}`);
-                t.is(sourceData, targetData, `File ${name}`);
+                t.is(
+                    sourceData.length,
+                    targetData.length,
+                    `File ${targetFilePath}`
+                );
+                t.is(sourceData, targetData, `File ${targetPath}`);
             }
         }
     });

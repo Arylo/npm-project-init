@@ -7,7 +7,8 @@ Generate a Node.js Project for Arylo Edition / 用于新建一个Node.js项目�
 [![Known Vulnerabilities][SNYK_URL]][SNYK_HREF]
 [![David][DAVID_URL]][DAVID_HREF]
 [![Author][AUTHOR_URL]][AUTHOR_HREF]
-[![license][LICENSE_URL]][LICENSE_HREF]
+[![MIT-License][LICENSE_URL]][LICENSE_HREF]
+[![996ICU-License][LICENSE_996_URL]][LICENSE_996_HREF]
 
 ## Usages / 使用方法
 
@@ -52,3 +53,5 @@ arylo-init update <update_project_path>
 [AUTHOR_HREF]: https://github.com/arylo
 [LICENSE_URL]: https://img.shields.io/github/license/Arylo/npm-project-init.svg?style=flat-square&maxAge=7200
 [LICENSE_HREF]: https://opensource.org/licenses/MIT
+[LICENSE_996_URL]: https://img.shields.io/badge/license-NPL%20(The%20996%20Prohibited%20License)-blue.svg?style=flat-square&maxAge=7200
+[LICENSE_996_HREF]: https://github.com/996icu/996.ICU
