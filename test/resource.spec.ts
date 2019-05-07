@@ -18,9 +18,7 @@ test.before(async () => {
 
 const commands = [
     "npm install --no-package-lock",
-    // Because the eslint match no files
-    // "npm run lint",
-    "npm run lint:typescript",
+    "npm run lint",
     "npm run build",
     "npm run clean",
     "npm run build:prod",
@@ -28,7 +26,7 @@ const commands = [
 ];
 
 for (const command of commands) {
-    test.serial(`Resource Run \`${command}\'`, async (t) => {
+    test.serial(`Resource Run \`${command}\``, async (t) => {
         child_process.execSync(command, { cwd: TEST_PATH }).toString();
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
