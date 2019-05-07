@@ -1,7 +1,7 @@
 {
   "hooks": {
-    "commit-msg": "commitlint --config _scripts/commitlint.config.js -e .git/COMMIT_EDITMSG",
-    "pre-commit": "lint-staged",
-    "pre-merge": "lint-staged"
+    "commit-msg": "commitlint --config .scripts/commitlint.config.js -e .git/COMMIT_EDITMSG",
+    "pre-commit": "lint-staged --config .scripts/.lintstagedrc",
+    "pre-merge": "lint-staged --config .scripts/.lintstagedrc"
   }
 }

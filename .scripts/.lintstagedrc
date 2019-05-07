@@ -1,20 +1,20 @@
 {
   "linters": {
-    "{lib,public,scripts,test}/**/*.ts": [
+    "{lib,public,.scripts,test}/**/*.ts": [
       "prettier --write --tab-width 4",
       "npm run lint:typescript -- --fix",
       "git add"
     ],
-    "{lib,public,scripts,test}/**/*.js": [
+    "{lib,public,.scripts,test}/**/*.js": [
       "prettier --write --tab-width 4",
       "npm run lint:javascript -- --fix",
       "git add"
     ],
-    "{,public/}*.{json,yaml,yml}": [
+    "{,.scripts/,public/}*.{json,yaml,yml}": [
       "prettier --write --tab-width 2",
       "git add"
     ],
-    "{,public/}.lintstagedrc": [
+    "{,.scripts/,public/}.lintstagedrc": [
       "prettier --write --tab-width 2 --parser json",
       "git add"
     ]

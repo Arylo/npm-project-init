@@ -1,26 +1,30 @@
-const glob = require('glob');
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('make-dir');
-const md5 = require('md5');
+const glob = require("glob");
+const fs = require("fs");
+const path = require("path");
+const mkdirp = require("make-dir");
+const md5 = require("md5");
 
-const resourcesRawPath = path.resolve(__dirname, '../public');
+const resourcesRawPath = path.resolve(__dirname, "../public");
 
-const distPath = path.resolve(...[
-    __dirname,
-    '../dist/public',
-    fs.existsSync(path.resolve(__dirname, '../dist/lib')) ? '../lib/public' : ''
-]);
+const distPath = path.resolve(
+    ...[
+        __dirname,
+        "../dist/public",
+        fs.existsSync(path.resolve(__dirname, "../dist/lib"))
+            ? "../lib/public"
+            : ""
+    ]
+);
 
 (() => {
-    const filePaths = glob.sync('./**', {
+    const filePaths = glob.sync("./**", {
         cwd: resourcesRawPath,
         dot: true
     });
     mkdirp.sync(distPath);
     const json = {
         list: filePaths,
-        files: { }
+        files: {}
     };
     for (const filePath of filePaths) {
         const p = path.resolve(resourcesRawPath, filePath);
@@ -33,8 +37,8 @@ const distPath = path.resolve(...[
         }
     }
     fs.writeFileSync(
-        path.resolve(distPath, 'tree.json'),
+        path.resolve(distPath, "tree.json"),
         JSON.stringify(json),
-        { encoding: 'utf-8' }
+        { encoding: "utf-8" }
     );
 })();
