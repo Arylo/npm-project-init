@@ -9,7 +9,7 @@ node_js:
   - "lts/*"
   - "10"
   - "8"
-  - "6"
+  # - "6"
 
 before_script:
   - "npm install nyc --global"
