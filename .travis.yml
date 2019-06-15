@@ -7,12 +7,13 @@ os:
 
 node_js:
   - "lts/*"
+  - "12"
   - "10"
   - "8"
   # - "6"
 
 before_script:
-  - "npm install nyc --global"
+  - "npm install nyc@13 --global"
   - "npx -h || npm install npx --global"
 
 before_deploy:

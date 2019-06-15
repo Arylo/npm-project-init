@@ -8,7 +8,9 @@ export const pipe = (action: string, msg: string) => {
             spaceNum = matches[1].length;
         }
         if (spaceNum >= 0) {
-            action += Array(6 - spaceNum).fill(" ").join("");
+            action += Array(6 - spaceNum)
+                .fill(" ")
+                .join("");
         }
     }
     switch (action.trim()) {
@@ -27,6 +29,9 @@ export const pipe = (action: string, msg: string) => {
         case "SKIP":
             action = chalk.magenta(action);
             break;
+    }
+    if (process.env.CI) {
+        return true;
     }
     return process.stdout.write(`${action} ${msg}\n`);
 };

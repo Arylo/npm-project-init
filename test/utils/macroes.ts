@@ -63,7 +63,11 @@ export function getFileFunctionMacro(t) {
     t.context.getFiles = (p: fs.PathLike): string[] => {
         filesMap.files[p.toString()] = t.context
             .getAllFiles(p)
-            .filter((name) => fs.statSync(`${p}/${name}`).isFile());
+            .filter(
+                (name) =>
+                    fs.existsSync(`${p}/${name}`) &&
+                    fs.statSync(`${p}/${name}`).isFile()
+            );
         return filesMap.files[p.toString()];
     };
 }

@@ -1,6 +1,6 @@
 {
   "name": "arylo-init",
-  "version": "2.1.22",
+  "version": "2.1.23",
   "description": "Initial Node.js Project for Arylo Edition",
   "main": "./dist/index.js",
   "bin": {
@@ -20,7 +20,7 @@
     "lint:typescript": "tslint lib/**/*.ts public/**/*.ts",
     "lint:javascript": "eslint ./**/*.js",
     "pretest": "npm run clean && npm run build:test && npm run resource",
-    "test": "ava ./dist/test/**/*.spec.*"
+    "test": "cross-env CI=true ava ./dist/test/**/*.spec.*"
   },
   "repository": {
     "type": "git",
@@ -74,6 +74,7 @@
     "@types/update-notifier": "^2.2.0",
     "@types/yaml": "^1.0.1",
     "ava": "^1.4.1",
+    "cross-env": "^5.2.0",
     "dtss": "^1.1.1",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
