@@ -1,21 +1,21 @@
 {
   "linters": {
     "{lib,public,.scripts,test}/**/*.ts": [
-      "prettier --write --tab-width 4",
+      "prettier --config .scripts/.prettierrc.yml --write --tab-width 4",
       "npm run lint:typescript -- --fix",
       "git add"
     ],
     "{lib,public,.scripts,test}/**/*.js": [
-      "prettier --write --tab-width 4",
+      "prettier --config .scripts/.prettierrc.yml --write --tab-width 4",
       "npm run lint:javascript -- --fix",
       "git add"
     ],
     "{,.scripts/,public/}*.{json,yaml,yml}": [
-      "prettier --write --tab-width 2",
+      "prettier --config .scripts/.prettierrc.yml --write --tab-width 2",
       "git add"
     ],
     "{,.scripts/,public/}.lintstagedrc": [
-      "prettier --write --tab-width 2 --parser json",
+      "prettier --config .scripts/.prettierrc.yml --write --tab-width 2 --parser json",
       "git add"
     ]
   },
