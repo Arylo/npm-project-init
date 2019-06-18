@@ -18,7 +18,8 @@ export interface IPackage extends IObj {
 
 export interface ILintstagedrc extends IObj {
     linters: IObj<string[]>;
-    globOptions: IObj;
+    globOptions?: IObj;
+    ignore?: string[];
 }
 
 export interface IHuskyrc extends IObj {

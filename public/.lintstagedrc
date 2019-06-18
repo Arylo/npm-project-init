@@ -1,20 +1,17 @@
 {
   "linters": {
     "./**/*.ts": [
-      "prettier --write --tab-width 4",
+      "prettier --config _scripts/.prettierrc.yml --write --tab-width 4",
       "npm run lint:typescript -- --fix",
       "git add"
     ],
     "./**/*.js": [
-      "prettier --write --tab-width 4",
+      "prettier --config _scripts/.prettierrc.yml --write --tab-width 4",
       "npm run lint:javascript -- --fix",
       "git add"
     ],
-    "./**/*.{json,yaml,yml}": ["prettier --write --tab-width 2", "git add"],
-    "./.lintstagedrc": [
-      "prettier --write --tab-width 2 --parser json",
-      "git add"
-    ]
+    "./**/*.{json,yaml,yml}": ["prettier --config _scripts/.prettierrc.yml --write --tab-width 2", "git add"],
+    "./.lintstagedrc": ["prettier --config _scripts/.prettierrc.yml --write --tab-width 2 --parser json", "git add"]
   },
   "globOptions": {
     "dot": true
