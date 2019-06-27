@@ -16,7 +16,7 @@ export const namePipe = (name: string) => {
     return name
         .toLowerCase()
         .replace(/^[^a-z]*/i, "")
-        .replace(/\W/g, "");
+        .replace(/[^\d\w_-]/g, "");
 };
 
 /**
