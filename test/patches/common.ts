@@ -26,7 +26,7 @@ export const getRemoveVersion = async () => {
             },
             method: "GET",
             timeout: dtss.m(1),
-            uri: url
+            uri: url.href
         });
         body = typeof body === "string" ? JSON.parse(body) : body;
         return (remoteVersion = body["dist-tags"].latest);
@@ -54,12 +54,8 @@ export const patchBeforeMacro = async (t, vers: string | string[]) => {
     vers = Array.isArray(vers) ? vers : [vers];
     const tmpName =
         `t${Math.ceil(Math.random() * 10000)}-` +
-        (vers.length < 5
-            ? `${vers.join("-")}`
-            : `${vers[0]}--${vers[vers.length - 1]}`);
-    const projectPaths = [
-        path.resolve(TEST_TEMP_PATH, `${tmpName}`, "now", PROJECT_NAME)
-    ];
+        (vers.length < 5 ? `${vers.join("-")}` : `${vers[0]}--${vers[vers.length - 1]}`);
+    const projectPaths = [path.resolve(TEST_TEMP_PATH, `${tmpName}`, "now", PROJECT_NAME)];
     process.argv = [process.argv0, ".", "new", projectPaths[0]];
     handler();
     for (const ver of vers) {
@@ -89,10 +85,7 @@ export const addMacro = (list: string[], config: Config<{ cwd: string }>) => {
     }
 };
 
-export const removeMacro = (
-    list: string[],
-    config: Config<{ cwd: string }>
-) => {
+export const removeMacro = (list: string[], config: Config<{ cwd: string }>) => {
     for (const item of list) {
         test(`Check Removed File \`${item}\``, (t) => {
             t.false(fs.existsSync(path.resolve(config.get("cwd"), item)));
